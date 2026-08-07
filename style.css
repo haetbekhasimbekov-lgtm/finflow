@@ -225,6 +225,8 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   position: relative;
   transition: background 0.4s ease;
   overflow: hidden;
+  /* Push ALL content below phone status bar */
+  padding-top: env(safe-area-inset-top, 0px);
 }
 
 @media (min-width: 500px) {
@@ -264,8 +266,7 @@ input[type="date"]::-webkit-calendar-picker-indicator {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px 20px;
-  padding-top: calc(16px + env(safe-area-inset-top, 0px));
+  padding: 14px 20px;
   background: var(--bg-surface);
   backdrop-filter: var(--glass-blur);
   -webkit-backdrop-filter: var(--glass-blur);
