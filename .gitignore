@@ -1,0 +1,7 @@
+# Exclude binaries and log files
+cloudflared.exe
+*.log
+*.zip
+__pycache__/
+.vscode/
+.idea/
