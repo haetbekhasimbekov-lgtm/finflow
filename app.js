@@ -2028,11 +2028,24 @@ function createTxItem(tx, showDelete) {
   item.innerHTML = `
     <div class="tx-info">
       <div class="tx-cat-badge ${tx.type}">
-        <span>${isInc ? '↑' : '↓'}</span>
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round" width="18" height="18">
+          ${isInc ? '<path d="M12 19V5M5 12l7-7 7 7"/>' : '<path d="M12 5v14M19 12l-7 7-7-7"/>'}
+        </svg>
       </div>
       <div class="tx-meta">
         <h4>${escHtml(tx.category)}</h4>
-        <span>${formatDateDisplay(tx.date)}${tx.description ? ' · ' + escHtml(tx.description) : ''}</span>
+        <div class="tx-meta-sub">
+          <span class="tx-date-badge">
+            <svg class="tx-date-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="4" width="18" height="18" rx="2" ry="2"/>
+              <line x1="16" y1="2" x2="16" y2="6"/>
+              <line x1="8" y1="2" x2="8" y2="6"/>
+              <line x1="3" y1="10" x2="21" y2="10"/>
+            </svg>
+            ${formatDateDisplay(tx.date)}
+          </span>
+          ${tx.description ? `<span class="tx-desc-text">· ${escHtml(tx.description)}</span>` : ''}
+        </div>
       </div>
     </div>
     <div class="tx-amount-side">
