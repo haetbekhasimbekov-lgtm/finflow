@@ -15,7 +15,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Manrope:wght@400;500;600;700;800;900&family=Outfit:wght@400;500;600;700;800;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="style.css?v=3.0">
+  <link rel="stylesheet" href="style.css?v=4.0">
 </head>
 <body>
 <div class="app-container">
@@ -208,7 +208,12 @@
         <h3 class="card-title" id="form-title" data-i18n="new_expense">Жаңа Шығыс</h3>
         <form id="tx-form" novalidate>
           <div class="field-group">
-            <label class="field-label" for="tx-amount"><span class="field-icon-tag">💰</span> <span data-i18n="amount">Сомасы</span></label>
+            <label class="field-label" for="tx-amount">
+              <span class="field-icon-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+              </span>
+              <span data-i18n="amount">Сомасы</span>
+            </label>
             <div class="field-wrap">
               <button type="button" class="currency-pill" id="open-curr-from-tx">
                 <img class="curr-flag flag-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'><rect width='1000' height='500' fill='%2300afca'/><circle cx='500' cy='250' r='100' fill='%23ffe800'/><path fill='%23ffe800' d='M500 80l15 45 45-15-30 35 35 30-45-15 15 45-35-30-35 30 15-45-45 15 35-30-30-35 45 15z'/></svg>" alt="KZT flag">
@@ -226,7 +231,12 @@
           </div>
           <div class="field-row">
             <div class="field-group">
-              <label class="field-label" for="tx-category"><span class="field-icon-tag">🏷️</span> <span data-i18n="category">Санат</span></label>
+              <label class="field-label" for="tx-category">
+                <span class="field-icon-tag">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20.59 13.41l-7.17 7.17a2 2 0 0 1-2.83 0L2 12V2h10l8.59 8.59a2 2 0 0 1 0 2.82z"/><line x1="7" y1="7" x2="7.01" y2="7"/></svg>
+                </span>
+                <span data-i18n="category">Санат</span>
+              </label>
               <div class="field-wrap">
                 <select id="tx-category" class="field-input" required></select>
                 <button type="button" class="field-action" id="btn-add-category-modal" title="+">
@@ -250,7 +260,12 @@
             </div>
           </div>
           <div class="field-group">
-            <label class="field-label" for="tx-desc"><span class="field-icon-tag">📝</span> <span data-i18n="description">Сипаттама</span></label>
+            <label class="field-label" for="tx-desc">
+              <span class="field-icon-tag">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+              </span>
+              <span data-i18n="description">Сипаттама</span>
+            </label>
             <input type="text" id="tx-desc" class="field-input" data-i18n-ph="optional">
           </div>
           <button type="submit" class="btn-primary full" id="btn-save-tx">
@@ -290,11 +305,21 @@
         <form id="debt-form" novalidate>
           <div class="field-row">
             <div class="field-group">
-              <label class="field-label" for="debt-person"><span class="field-icon-tag">👤</span> <span data-i18n="name">Аты</span></label>
+              <label class="field-label" for="debt-person">
+                <span class="field-icon-tag">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+                <span data-i18n="name">Аты</span>
+              </label>
               <input type="text" id="debt-person" class="field-input" required data-i18n-ph="who">
             </div>
             <div class="field-group">
-              <label class="field-label" for="debt-amount"><span class="field-icon-tag">💰</span> <span data-i18n="amount">Сомасы</span></label>
+              <label class="field-label" for="debt-amount">
+                <span class="field-icon-tag">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="1" x2="12" y2="23"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+                </span>
+                <span data-i18n="amount">Сомасы</span>
+              </label>
               <div class="field-wrap">
                 <button type="button" class="currency-pill" id="open-curr-from-debt">
                   <img class="curr-flag flag-img" src="data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'><rect width='1000' height='500' fill='%2300afca'/><circle cx='500' cy='250' r='100' fill='%23ffe800'/><path fill='%23ffe800' d='M500 80l15 45 45-15-30 35 35 30-45-15 15 45-35-30-35 30 15-45-45 15 35-30-30-35 45 15z'/></svg>" alt="KZT flag">
@@ -306,7 +331,12 @@
           </div>
           <div class="field-row">
             <div class="field-group">
-              <label class="field-label" for="debt-type"><span class="field-icon-tag">⚖️</span> <span data-i18n="debt_type">Түрі</span></label>
+              <label class="field-label" for="debt-type">
+                <span class="field-icon-tag">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v18M4 7h16M4 7l4 8h-8l4-8M20 7l-4 8h8l-4-8"/></svg>
+                </span>
+                <span data-i18n="debt_type">Түрі</span>
+              </label>
               <select id="debt-type" class="field-input" required>
                 <option value="lend" data-i18n-opt="gave_debt">Бердім</option>
                 <option value="borrow" data-i18n-opt="took_debt">Алдым</option>
@@ -764,6 +794,6 @@
   </div>
 </div>
 
-<script src="app.js?v=3.0"></script>
+<script src="app.js?v=4.0"></script>
 </body>
 </html>

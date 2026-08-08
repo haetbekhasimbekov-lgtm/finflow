@@ -985,6 +985,44 @@ input[type="date"].field-input {
   font-size: 14px;
   font-weight: 600;
   font-family: inherit;
+  text-align: left !important;
+  -webkit-appearance: none;
+  appearance: none;
+  min-height: 48px;
+  height: 48px;
+  padding: 0 16px !important;
+  box-sizing: border-box;
+  display: block;
+}
+
+/* Force left alignment on mobile WebKit / iOS Safari date shadow DOM elements */
+input[type="date"].field-input::-webkit-date-and-time-value {
+  text-align: left !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  min-height: 1.2em;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
+  color: var(--text-1);
+  display: block;
+}
+
+input[type="date"].field-input::-webkit-datetime-edit {
+  text-align: left !important;
+  padding: 0 !important;
+  display: inline-flex;
+}
+
+input[type="date"].field-input::-webkit-datetime-edit-fields-wrapper {
+  padding: 0 !important;
+}
+
+input[type="date"].field-input::-webkit-datetime-edit-text,
+input[type="date"].field-input::-webkit-datetime-edit-month-field,
+input[type="date"].field-input::-webkit-datetime-edit-day-field,
+input[type="date"].field-input::-webkit-datetime-edit-year-field {
+  padding: 0 !important;
 }
 
 [data-theme="light"] input[type="date"].field-input {
