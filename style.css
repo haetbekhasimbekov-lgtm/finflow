@@ -982,9 +982,9 @@ select {
 input[type="date"].field-input {
   color-scheme: dark;
   cursor: pointer;
-  font-size: 15px;
-  font-weight: 700;
-  letter-spacing: 0.3px;
+  font-size: 14px;
+  font-weight: 600;
+  font-family: inherit;
 }
 
 [data-theme="light"] input[type="date"].field-input {
