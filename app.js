@@ -1130,7 +1130,7 @@ const TRANSLATIONS = {
 };
 
 const LANGUAGES = {
-  kk: { name: "Қазақша", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'><rect width='1000' height='500' fill='%2300b0e6'/><g fill='%23ffe800'><path d='M45 40h20v420H45z'/><path d='M45 60c25-25 50-25 50 0s-25 35-50 15M45 160c25-25 50-25 50 0s-25 35-50 15M45 260c25-25 50-25 50 0s-25 35-50 15M45 360c25-25 50-25 50 0s-25 35-50 15'/></g><circle cx='550' cy='200' r='65' fill='%23ffe800'/><g fill='%23ffe800'><path d='M550 120l7 20h-14zM550 280l7-20h-14zM470 200l20 7v-14zM630 200l-20 7v-14zM493 143l17 12-12-14zM607 257l-17-12 12 14zM493 257l12-17-14 12zM607 143l-12 17 14-12zM518 127l11 18-7-16zM582 273l-11-18 7 16zM477 232l18-11-16 7zM623 168l-18 11 16-7z'/></g><path fill='%23ffe800' d='M550 275c-55 0-115 22-160 48 50-12 105-10 160 14 55-24 110-26 160-14-45-26-105-48-160-48z'/></svg>", code: "KZ" },
+  kk: { name: "Қазақша", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'><rect width='100' height='60' fill='%2300b0e6'/><g fill='%23ffea00'><path d='M4 5h7v50H4zM4 11c6-6 13-6 13 0s-7 8-13 4M4 25c6-6 13-6 13 0s-7 8-13 4M4 39c6-6 13-6 13 0s-7 8-13 4'/><circle cx='55' cy='24' r='10'/><path d='M55 34c-8 0-18 4-25 9 8-3 17-2 25 3 8-5 17-6 25-3-7-5-17-9-25-9z'/></g><g stroke='%23ffea00' stroke-width='2' stroke-linecap='round'><line x1='55' y1='10' x2='55' y2='7'/><line x1='55' y1='38' x2='55' y2='41'/><line x1='41' y1='24' x2='38' y2='24'/><line x1='69' y1='24' x2='72' y2='24'/><line x1='45' y1='14' x2='43' y2='12'/><line x1='65' y1='34' x2='67' y2='36'/><line x1='45' y1='34' x2='43' y2='36'/><line x1='65' y1='14' x2='67' y2='12'/></g></svg>", code: "KZ" },
   uz: { name: "O'zbekcha", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 250'><rect width='500' height='80' fill='%230099b5'/><rect y='80' width='500' height='5' fill='%23d52b1e'/><rect y='85' width='500' height='80' fill='%23ffffff'/><rect y='165' width='500' height='5' fill='%23d52b1e'/><rect y='170' width='500' height='80' fill='%231eb53a'/><circle cx='50' cy='40' r='18' fill='%23ffffff'/><circle cx='58' cy='40' r='16' fill='%230099b5'/></svg>", code: "UZ" },
   ru: { name: "Русский", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 600'><rect width='900' height='200' fill='%23ffffff'/><rect y='200' width='900' height='200' fill='%230039a6'/><rect y='400' width='900' height='200' fill='%23d52b1e'/></svg>", code: "RU" },
   en: { name: "English", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 741 390'><rect width='741' height='390' fill='%23b22234'/><path d='M0 60h741M0 120h741M0 180h741M0 240h741M0 300h741M0 360h741' stroke='%23fff' stroke-width='30'/><rect width='296' height='210' fill='%233c3b6e'/></svg>", code: "EN" },
@@ -1150,7 +1150,7 @@ const LANG_TO_CURRENCY = {
 };
 
 const CURRENCIES = {
-  KZT: { sym: "₸", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'><rect width='1000' height='500' fill='%2300b0e6'/><g fill='%23ffe800'><path d='M45 40h20v420H45z'/><path d='M45 60c25-25 50-25 50 0s-25 35-50 15M45 160c25-25 50-25 50 0s-25 35-50 15M45 260c25-25 50-25 50 0s-25 35-50 15M45 360c25-25 50-25 50 0s-25 35-50 15'/></g><circle cx='550' cy='200' r='65' fill='%23ffe800'/><g fill='%23ffe800'><path d='M550 120l7 20h-14zM550 280l7-20h-14zM470 200l20 7v-14zM630 200l-20 7v-14zM493 143l17 12-12-14zM607 257l-17-12 12 14zM493 257l12-17-14 12zM607 143l-12 17 14-12zM518 127l11 18-7-16zM582 273l-11-18 7 16zM477 232l18-11-16 7zM623 168l-18 11 16-7z'/></g><path fill='%23ffe800' d='M550 275c-55 0-115 22-160 48 50-12 105-10 160 14 55-24 110-26 160-14-45-26-105-48-160-48z'/></svg>", name: "Қазақ теңгесі (KZT)" },
+  KZT: { sym: "₸", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 60'><rect width='100' height='60' fill='%2300b0e6'/><g fill='%23ffea00'><path d='M4 5h7v50H4zM4 11c6-6 13-6 13 0s-7 8-13 4M4 25c6-6 13-6 13 0s-7 8-13 4M4 39c6-6 13-6 13 0s-7 8-13 4'/><circle cx='55' cy='24' r='10'/><path d='M55 34c-8 0-18 4-25 9 8-3 17-2 25 3 8-5 17-6 25-3-7-5-17-9-25-9z'/></g><g stroke='%23ffea00' stroke-width='2' stroke-linecap='round'><line x1='55' y1='10' x2='55' y2='7'/><line x1='55' y1='38' x2='55' y2='41'/><line x1='41' y1='24' x2='38' y2='24'/><line x1='69' y1='24' x2='72' y2='24'/><line x1='45' y1='14' x2='43' y2='12'/><line x1='65' y1='34' x2='67' y2='36'/><line x1='45' y1='34' x2='43' y2='36'/><line x1='65' y1='14' x2='67' y2='12'/></g></svg>", name: "Қазақ теңгесі (KZT)" },
   UZS: { sym: "soʻm", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 250'><rect width='500' height='80' fill='%230099b5'/><rect y='80' width='500' height='5' fill='%23d52b1e'/><rect y='85' width='500' height='80' fill='%23ffffff'/><rect y='165' width='500' height='5' fill='%23d52b1e'/><rect y='170' width='500' height='80' fill='%231eb53a'/><circle cx='50' cy='40' r='18' fill='%23ffffff'/><circle cx='58' cy='40' r='16' fill='%230099b5'/></svg>", name: "O'zbek so'mi (UZS)" },
   RUB: { sym: "₽", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 600'><rect width='900' height='200' fill='%23ffffff'/><rect y='200' width='900' height='200' fill='%230039a6'/><rect y='400' width='900' height='200' fill='%23d52b1e'/></svg>", name: "Российский рубль (RUB)" },
   USD: { sym: "$", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 741 390'><rect width='741' height='390' fill='%23b22234'/><path d='M0 60h741M0 120h741M0 180h741M0 240h741M0 300h741M0 360h741' stroke='%23fff' stroke-width='30'/><rect width='296' height='210' fill='%233c3b6e'/></svg>", name: "US Dollar (USD)" },
@@ -1204,7 +1204,7 @@ let state = {
   currency: 'KZT'
 };
 
-const STORAGE_KEY = 'finflow_v5_kk_kz'; // Updated storage key to force Kazakh default state on phone
+const STORAGE_KEY = 'finflow_v6_kk_kz_strict'; // Force strict Kazakh default state refresh
 
 
 // --- PERSISTENCE ---------------------------------------------------------
@@ -2999,11 +2999,25 @@ async function sendAIMessage() {
       parts: [{ text: m.text }]
     }));
 
+    const langDirectives = {
+      kk: " (НАЗАР АУДАРЫҢЫЗ: ТЕК ҚАЗАҚ ТІЛІНДЕ ЖАУАП БЕРІҢІЗ! Өзбек немесе орыс тілінде жауап беруге ҚАТАҢ ТЫЙЫМ САЛЫНАДЫ!)",
+      uz: " (DIQQAT: FAQAT O'ZBEK TILIDA JAVOB BERING!)",
+      ru: " (ВНИМАНИЕ: ОТВЕЧАЙТЕ СТРОГО НА РУССКОМ ЯЗЫКЕ!)",
+      en: " (ATTENTION: ALWAYS RESPOND STRICTLY IN ENGLISH ONLY!)",
+      tr: " (DİKKAT: HER ZAMAN SADECE TÜRKÇE CEVAP VERİN!)",
+      ky: " (КӨҢҮЛ БУРУҢУЗ: ТЕК ГАНА КЫРГЫЗ ТИЛИНДЕ ЖООП БЕРИҢИЗ!)",
+      tg: " (ДИҚҚАТ: ТАНҲО БА ЗАБОНИ ТОҶИКӢ ҶАВОБ ДИҲЕД!)"
+    };
+
+    const userLang = state.language || 'kk';
+    const promptedText = text + (langDirectives[userLang] || langDirectives['kk']);
+
     const body = {
       system_instruction: { parts: [{ text: systemCtx }] },
+      systemInstruction: { parts: [{ text: systemCtx }] },
       contents: [
         ...history,
-        { role: 'user', parts: [{ text }] }
+        { role: 'user', parts: [{ text: promptedText }] }
       ]
     };
 
