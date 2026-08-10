@@ -125,6 +125,9 @@ const TRANSLATIONS = {
     lang_kk: "Qozoqcha",
     lang_ru: "Ruscha",
     lang_en: "Inglizcha",
+    lang_tr: "Turkcha",
+    lang_ky: "Qirg'izcha",
+    lang_tg: "Tojikcha",
     nav_ai: "AI",
     ai_title: "AI Moliya Yordamchisi",
     ai_sub: "Moliyaviy savollaringizga javob beradi",
@@ -286,6 +289,9 @@ const TRANSLATIONS = {
     lang_kk: "Қазақша",
     lang_ru: "Орысша",
     lang_en: "Ағылшынша",
+    lang_tr: "Түрікше",
+    lang_ky: "Қырғызша",
+    lang_tg: "Тәжікше",
     nav_ai: "AI",
     ai_title: "AI Қаржы Көмекшісі",
     ai_sub: "Қаржылық сұрақтарыңызға жауап береді",
@@ -442,6 +448,9 @@ const TRANSLATIONS = {
     lang_kk: "Казахский",
     lang_ru: "Русский",
     lang_en: "Английский",
+    lang_tr: "Турецкий",
+    lang_ky: "Киргизский",
+    lang_tg: "Таджикский",
     nav_ai: "AI",
     ai_title: "AI Финансовый Советник",
     ai_sub: "Ответит на ваши финансовые вопросы",
@@ -1121,18 +1130,18 @@ const TRANSLATIONS = {
 };
 
 const LANGUAGES = {
-  uz: { name: "O'zbekcha", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 250'><rect width='500' height='83' fill='%230099b5'/><rect y='83' width='500' height='84' fill='%23ffffff'/><rect y='167' width='500' height='83' fill='%231eb53a'/><circle cx='45' cy='41' r='20' fill='%23ffffff'/><circle cx='53' cy='41' r='18' fill='%230099b5'/></svg>", code: "UZ" },
   kk: { name: "Қазақша", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'><rect width='1000' height='500' fill='%2300afca'/><path fill='%23ffe800' d='M60 50h30v400H60zM75 70c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30z'/><circle cx='550' cy='220' r='75' fill='%23ffe800'/><g fill='%23ffe800'><path d='M550 125l8 18h-16zM550 315l8-18h-16zM455 220l18 8v-16zM645 220l-18 8v-16z'/><path d='M483 153l17 7-6-17zM617 287l-17-7 6 17zM483 287l7-17 11 13zM617 153l-7 17-11-13z'/></g><path fill='%23ffe800' d='M550 315c-60 0-110-25-135-45 35 5 85 10 135 10s100-5 135-10c-25 20-75 45-135 45z'/></svg>", code: "KZ" },
+  uz: { name: "O'zbekcha", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 250'><rect width='500' height='80' fill='%230099b5'/><rect y='80' width='500' height='5' fill='%23d52b1e'/><rect y='85' width='500' height='80' fill='%23ffffff'/><rect y='165' width='500' height='5' fill='%23d52b1e'/><rect y='170' width='500' height='80' fill='%231eb53a'/><circle cx='50' cy='40' r='18' fill='%23ffffff'/><circle cx='58' cy='40' r='16' fill='%230099b5'/></svg>", code: "UZ" },
   ru: { name: "Русский", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 600'><rect width='900' height='200' fill='%23ffffff'/><rect y='200' width='900' height='200' fill='%230039a6'/><rect y='400' width='900' height='200' fill='%23d52b1e'/></svg>", code: "RU" },
   en: { name: "English", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 741 390'><rect width='741' height='390' fill='%23b22234'/><path d='M0 60h741M0 120h741M0 180h741M0 240h741M0 300h741M0 360h741' stroke='%23fff' stroke-width='30'/><rect width='296' height='210' fill='%233c3b6e'/></svg>", code: "EN" },
-  tr: { name: "Türkçe", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><rect width='1200' height='800' fill='%23e30a17'/><circle cx='400' cy='400' r='200' fill='%23ffffff'/><circle cx='450' cy='400' r='160' fill='%23e30a17'/><polygon points='520,400 480,415 480,385' fill='%23ffffff'/></svg>", code: "TR" },
-  ky: { name: "Кыргызча", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 600'><rect width='1000' height='600' fill='%23e30a17'/><circle cx='500' cy='300' r='100' fill='%23ffe800'/><circle cx='500' cy='300' r='80' fill='%23e30a17'/></svg>", code: "KY" },
-  tg: { name: "Тоҷикӣ", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 700'><rect width='1400' height='200' fill='%23cc0000'/><rect y='200' width='1400' height='300' fill='%23ffffff'/><rect y='500' width='1400' height='200' fill='%2300cc00'/><circle cx='700' cy='350' r='45' fill='%23ffcc00'/></svg>", code: "TG" }
+  tr: { name: "Türkçe", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><rect width='1200' height='800' fill='%23e30a17'/><circle cx='420' cy='400' r='200' fill='%23ffffff'/><circle cx='470' cy='400' r='160' fill='%23e30a17'/><polygon points='680,400 635,415 652,370 615,400 660,400' fill='%23ffffff'/></svg>", code: "TR" },
+  ky: { name: "Кыргызча", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 600'><rect width='1000' height='600' fill='%23e30a17'/><g transform='translate(500,300)'><circle r='120' fill='%23ffda00'/><circle r='95' fill='%23e30a17'/><circle r='70' fill='%23ffda00'/><path d='M-45,-45 L45,45 M-45,45 L45,-45 M-60,0 L60,0 M0,-60 L0,60' stroke='%23e30a17' stroke-width='10'/></g></svg>", code: "KY" },
+  tg: { name: "Тоҷикӣ", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 700'><rect width='1400' height='200' fill='%23cc0000'/><rect y='200' width='1400' height='300' fill='%23ffffff'/><rect y='500' width='1400' height='200' fill='%2300cc00'/><g transform='translate(700,350)' fill='%23f6b40e'><path d='M-45,25 h90 v10 h-90 z M-35,15 l10,-30 l15,15 l10,-25 l10,25 l15,-15 l10,30 z'/><circle cx='0' cy='-48' r='7'/><circle cx='-25' cy='-42' r='6'/><circle cx='25' cy='-42' r='6'/><circle cx='-48' cy='-25' r='5'/><circle cx='48' cy='-25' r='5'/></g></svg>", code: "TG" }
 };
 
 const LANG_TO_CURRENCY = {
-  uz: 'UZS',
   kk: 'KZT',
+  uz: 'UZS',
   ru: 'RUB',
   en: 'USD',
   tr: 'TRY',
@@ -1141,13 +1150,13 @@ const LANG_TO_CURRENCY = {
 };
 
 const CURRENCIES = {
-  UZS: { sym: "soʻm", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 250'><rect width='500' height='83' fill='%230099b5'/><rect y='83' width='500' height='84' fill='%23ffffff'/><rect y='167' width='500' height='83' fill='%231eb53a'/><circle cx='45' cy='41' r='20' fill='%23ffffff'/><circle cx='53' cy='41' r='18' fill='%230099b5'/></svg>", name: "O'zbek so'mi (UZS)" },
   KZT: { sym: "₸", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'><rect width='1000' height='500' fill='%2300afca'/><path fill='%23ffe800' d='M60 50h30v400H60zM75 70c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30z'/><circle cx='550' cy='220' r='75' fill='%23ffe800'/><g fill='%23ffe800'><path d='M550 125l8 18h-16zM550 315l8-18h-16zM455 220l18 8v-16zM645 220l-18 8v-16z'/><path d='M483 153l17 7-6-17zM617 287l-17-7 6 17zM483 287l7-17 11 13zM617 153l-7 17-11-13z'/></g><path fill='%23ffe800' d='M550 315c-60 0-110-25-135-45 35 5 85 10 135 10s100-5 135-10c-25 20-75 45-135 45z'/></svg>", name: "Қазақ теңгесі (KZT)" },
+  UZS: { sym: "soʻm", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 250'><rect width='500' height='80' fill='%230099b5'/><rect y='80' width='500' height='5' fill='%23d52b1e'/><rect y='85' width='500' height='80' fill='%23ffffff'/><rect y='165' width='500' height='5' fill='%23d52b1e'/><rect y='170' width='500' height='80' fill='%231eb53a'/><circle cx='50' cy='40' r='18' fill='%23ffffff'/><circle cx='58' cy='40' r='16' fill='%230099b5'/></svg>", name: "O'zbek so'mi (UZS)" },
   RUB: { sym: "₽", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 600'><rect width='900' height='200' fill='%23ffffff'/><rect y='200' width='900' height='200' fill='%230039a6'/><rect y='400' width='900' height='200' fill='%23d52b1e'/></svg>", name: "Российский рубль (RUB)" },
   USD: { sym: "$", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 741 390'><rect width='741' height='390' fill='%23b22234'/><path d='M0 60h741M0 120h741M0 180h741M0 240h741M0 300h741M0 360h741' stroke='%23fff' stroke-width='30'/><rect width='296' height='210' fill='%233c3b6e'/></svg>", name: "US Dollar (USD)" },
-  TRY: { sym: "₺", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><rect width='1200' height='800' fill='%23e30a17'/><circle cx='400' cy='400' r='200' fill='%23ffffff'/><circle cx='450' cy='400' r='160' fill='%23e30a17'/><polygon points='520,400 480,415 480,385' fill='%23ffffff'/></svg>", name: "Türk Lirası (TRY)" },
-  KGS: { sym: "сом", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 600'><rect width='1000' height='600' fill='%23e30a17'/><circle cx='500' cy='300' r='100' fill='%23ffe800'/><circle cx='500' cy='300' r='80' fill='%23e30a17'/></svg>", name: "Кыргыз сому (KGS)" },
-  TJS: { sym: "смн", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 700'><rect width='1400' height='200' fill='%23cc0000'/><rect y='200' width='1400' height='300' fill='%23ffffff'/><rect y='500' width='1400' height='200' fill='%2300cc00'/><circle cx='700' cy='350' r='45' fill='%23ffcc00'/></svg>", name: "Сомонии Тоҷикистон (TJS)" }
+  TRY: { sym: "₺", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1200 800'><rect width='1200' height='800' fill='%23e30a17'/><circle cx='420' cy='400' r='200' fill='%23ffffff'/><circle cx='470' cy='400' r='160' fill='%23e30a17'/><polygon points='680,400 635,415 652,370 615,400 660,400' fill='%23ffffff'/></svg>", name: "Türk Lirası (TRY)" },
+  KGS: { sym: "сом", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 600'><rect width='1000' height='600' fill='%23e30a17'/><g transform='translate(500,300)'><circle r='120' fill='%23ffda00'/><circle r='95' fill='%23e30a17'/><circle r='70' fill='%23ffda00'/><path d='M-45,-45 L45,45 M-45,45 L45,-45 M-60,0 L60,0 M0,-60 L0,60' stroke='%23e30a17' stroke-width='10'/></g></svg>", name: "Кыргыз сому (KGS)" },
+  TJS: { sym: "смн", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1400 700'><rect width='1400' height='200' fill='%23cc0000'/><rect y='200' width='1400' height='300' fill='%23ffffff'/><rect y='500' width='1400' height='200' fill='%2300cc00'/><g transform='translate(700,350)' fill='%23f6b40e'><path d='M-45,25 h90 v10 h-90 z M-35,15 l10,-30 l15,15 l10,-25 l10,25 l15,-15 l10,30 z'/><circle cx='0' cy='-48' r='7'/><circle cx='-25' cy='-42' r='6'/><circle cx='25' cy='-42' r='6'/><circle cx='-48' cy='-25' r='5'/><circle cx='48' cy='-25' r='5'/></g></svg>", name: "Сомонии Тоҷикистон (TJS)" }
 };
 
 const DEFAULT_CATEGORIES = {
@@ -1346,7 +1355,7 @@ function buildLangGrid() {
     btn.type = 'button';
     btn.className = `lang-picker-item ${state.language === code ? 'active' : ''}`;
     btn.innerHTML = `
-      <img class="lang-flag flag-img" src="${lang.flag}" alt="${lang.code} flag" style="width:28px;height:19px;border-radius:4px;object-fit:cover;">
+      <img class="lang-flag flag-img" src="${lang.flag}" alt="${lang.code} flag">
       <div class="lang-text">
         <span class="lang-name">${localName}</span>
         <span class="lang-sub">${lang.name}</span>
@@ -1402,9 +1411,11 @@ function populateCurrencyGrid() {
     btn.type = 'button';
     btn.className = `currency-picker-item ${state.currency === code ? 'active' : ''}`;
     btn.innerHTML = `
-      <img class="curr-flag flag-img" src="${curr.flag}" alt="${code} flag" style="width:20px;height:14px;border-radius:3px;object-fit:cover;flex-shrink:0;">
-      <span class="curr-name">${curr.name}</span>
-      <span class="curr-code">${curr.sym}</span>
+      <img class="curr-flag flag-img" src="${curr.flag}" alt="${code} flag">
+      <div class="lang-text">
+        <span class="lang-name">${curr.name}</span>
+      </div>
+      <span class="lang-code-badge">${curr.sym}</span>
     `;
     btn.addEventListener('click', () => {
       changeCurrency(code);
