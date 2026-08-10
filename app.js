@@ -1204,7 +1204,7 @@ let state = {
   currency: 'KZT'
 };
 
-const STORAGE_KEY = 'finflow_v3_multi_lang'; // New key for multi-language state
+const STORAGE_KEY = 'finflow_v5_kk_kz'; // Updated storage key to force Kazakh default state on phone
 
 
 // --- PERSISTENCE ---------------------------------------------------------
