@@ -1009,7 +1009,8 @@ select {
   cursor: pointer;
 }
 
-input[type="date"].field-input {
+input[type="date"].field-input,
+input[type="date"] {
   color-scheme: dark;
   cursor: pointer;
   font-size: 14px;
@@ -1020,12 +1021,16 @@ input[type="date"].field-input {
   appearance: none;
   min-height: 48px;
   height: 48px;
-  padding: 0 16px !important;
+  padding: 0 12px !important;
   box-sizing: border-box;
-  display: block;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  width: 100%;
 }
 
 /* Force centered alignment on mobile WebKit / iOS Safari date shadow DOM elements */
+input[type="date"]::-webkit-date-and-time-value,
 input[type="date"].field-input::-webkit-date-and-time-value {
   text-align: center !important;
   margin: 0 auto !important;
@@ -1036,20 +1041,25 @@ input[type="date"].field-input::-webkit-date-and-time-value {
   font-family: inherit;
   color: var(--text-1);
   display: block;
+  width: 100% !important;
 }
 
+input[type="date"]::-webkit-datetime-edit,
 input[type="date"].field-input::-webkit-datetime-edit {
   text-align: center !important;
   justify-content: center !important;
   margin: 0 auto !important;
   padding: 0 !important;
   display: inline-flex;
+  width: 100% !important;
 }
 
+input[type="date"]::-webkit-datetime-edit-fields-wrapper,
 input[type="date"].field-input::-webkit-datetime-edit-fields-wrapper {
   padding: 0 !important;
   margin: 0 auto !important;
   justify-content: center !important;
+  display: flex !important;
 }
 
 input[type="date"].field-input::-webkit-datetime-edit-text,

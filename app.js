@@ -1672,11 +1672,7 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('lang-picker-btn')?.addEventListener('click', (e) => {
     e.stopPropagation();
     populateLanguageGrid();
-    if (window.innerWidth <= 600) {
-      document.getElementById('language-modal')?.classList.remove('hidden');
-    } else {
-      toggleLangDropdown();
-    }
+    document.getElementById('language-modal')?.classList.remove('hidden');
   });
 
   document.getElementById('btn-close-language-modal')?.addEventListener('click', () => {
