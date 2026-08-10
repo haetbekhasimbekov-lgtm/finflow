@@ -1204,7 +1204,7 @@ let state = {
   currency: 'KZT'
 };
 
-const STORAGE_KEY = 'finflow_v6_kk_kz_strict'; // Force strict Kazakh default state refresh
+const STORAGE_KEY = 'finflow_v7_kk_kz_final'; // Force final Kazakh default state refresh on phone
 
 
 // --- PERSISTENCE ---------------------------------------------------------
@@ -2971,6 +2971,91 @@ function showAITyping() {
   return div;
 }
 
+function generateLocalAIResponse(userText) {
+  const lang = state.language || 'kk';
+  const text = (userText || '').toLowerCase();
+
+  let totalIncome = 0;
+  let totalExpense = 0;
+  state.transactions.forEach(tx => {
+    if (tx.type === 'income') totalIncome += tx.amount;
+    else totalExpense += tx.amount;
+  });
+  const balance = totalIncome - totalExpense;
+  const savingsRate = totalIncome > 0 ? Math.round(((totalIncome - totalExpense) / totalIncome) * 100) : 0;
+
+  // Category breakdown
+  const catTotals = {};
+  state.transactions.filter(t => t.type === 'expense').forEach(t => {
+    catTotals[t.category] = (catTotals[t.category] || 0) + t.amount;
+  });
+  const topCatLines = Object.entries(catTotals)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 3)
+    .map(([cat, amt]) => `• ${cat}: ${formatCurrency(amt)}`)
+    .join('\n');
+
+  // Debts
+  const activeDebts = state.debts.filter(d => !d.isCompleted);
+  let borrowedAmt = 0;
+  activeDebts.filter(d => d.type === 'borrow').forEach(d => borrowedAmt += d.amount);
+
+  // Quick transaction detection
+  const txMatch = userText.match(/^([a-zA-Zа-яА-ЯёЁӨөӘәҒғҚқҢңҮүҰұҺһo'g's'h'—\s]{2,})\s+(\d+[\d\s]*)$/);
+  if (txMatch) {
+    const matchTitle = txMatch[1].trim();
+    const matchNum = parseFloat(txMatch[2].replace(/\s+/g, ''));
+    if (matchNum > 0 && matchTitle.length >= 2) {
+      const respTemplates = {
+        kk: `✅ **"${matchTitle}"** бойынша **${formatCurrency(matchNum)}** операциясы дайын!\n\nТөмендегі түймені басып, шығыстарға тез қоса аласыз:`,
+        uz: `✅ **"${matchTitle}"** bo'yicha **${formatCurrency(matchNum)}** operatsiyasi tayyor!\n\nPastroqdagi tugmani bosib chiqimlarga tez qo'shishingiz mumkin:`,
+        ru: `✅ Операция **"${matchTitle}"** на сумму **${formatCurrency(matchNum)}** готова!\n\nНажмите кнопку ниже для быстрого добавления в расходы:`,
+        en: `✅ Transaction **"${matchTitle}"** for **${formatCurrency(matchNum)}** is ready!\n\nClick the button below to quickly add to expenses:`
+      };
+      return respTemplates[lang] || respTemplates['kk'];
+    }
+  }
+
+  // Balance query
+  if (text.includes('баланс') || text.includes('кіріс') || text.includes('қор') || text.includes('balance') || text.includes('kirim')) {
+    const balanceResp = {
+      kk: `📊 **Сіздің Қаржылық Статистикаңыз:**\n\n• **Ағымдағы Баланс:** ${formatCurrency(balance)}\n• **Жалпы Кіріс:** ${formatCurrency(totalIncome)}\n• **Жалпы Шығыс:** ${formatCurrency(totalExpense)}\n• **Жинақ Пайызы:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Балансыңыз оң көрсеткіште! Кірістің кемінде 20% бөлігін жинаққа қосуды ұсынамын.' : 'Шығыстарыңыз кірістен асып кетті! Қажетсіз шығыстарды азайту ұсынылады.'}`,
+      uz: `📊 **Sizning Moliyaviy Statistikangiz:**\n\n• **Joriy Balans:** ${formatCurrency(balance)}\n• **Jami Kirim:** ${formatCurrency(totalIncome)}\n• **Jami Chiqim:** ${formatCurrency(totalExpense)}\n• **Jamg'arma ko'rsatkichi:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Balansingiz ijobiy! Daromadning kamida 20% qismini zaxiraga ajratishni tavsiya etaman.' : 'Chiqimlaringiz daromadingizdan oshib ketgan! Zudlik bilan keraksiz xarajatlarni qisqartiring.'}`,
+      ru: `📊 **Ваша Финансовая Статистика:**\n\n• **Текущий Баланс:** ${formatCurrency(balance)}\n• **Общий Доход:** ${formatCurrency(totalIncome)}\n• **Общий Расход:** ${formatCurrency(totalExpense)}\n• **Норма Сбережений:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Баланс положительный! Рекомендуется откладывать 20% дохода.' : 'Расходы превышают доходы! Рекомендуется сократить непервостепенные траты.'}`
+    };
+    return balanceResp[lang] || balanceResp['kk'];
+  }
+
+  // Expense query
+  if (text.includes('шығыс') || text.includes('расход') || text.includes('expense') || text.includes('санат')) {
+    const expResp = {
+      kk: `📉 **Шығыстар Талдауы:**\n\n• **Жалпы Шығыс:** ${formatCurrency(totalExpense)}\n\n**Ең көп жұмсалған санаттар:**\n${topCatLines || '• Деректер жоқ'}\n\n💡 Ең көп қаражат кететін 1-2 санатты бақылауға алып, айлық лимит қою арқылы шығысты 15-30% үнемдей аласыз.`,
+      uz: `📉 **Chiqimlar Tahlili:**\n\n• **Jami Chiqim:** ${formatCurrency(totalExpense)}\n\n**Eng ko'p xarajat qilingan kategoriyalar:**\n${topCatLines || '• Ma\'lumot yo\'q'}\n\n💡 Eng ko'p xarajat qilinayotgan 1-2 kategoriyaga oylik limit qo'yish orqali xarajatlarni 15-30% tejashingiz mumkin.`,
+      ru: `📉 **Анализ Расходов:**\n\n• **Общие Расходы:** ${formatCurrency(totalExpense)}\n\n**Топ категорий трат:**\n${topCatLines || '• Нет данных'}\n\n💡 Установите лимиты на основные категории расходов для экономии 15-30% средств.`
+    };
+    return expResp[lang] || expResp['kk'];
+  }
+
+  // Debt query
+  if (text.includes('қарыз') || text.includes('долг') || text.includes('debt') || text.includes('берішек')) {
+    const debtResp = {
+      kk: `⏳ **Қарыздар бойынша ақпарат:**\n\n• **Белсенді Қарыздар Саны:** ${activeDebts.length}\n• **Қайтару керек қарыз:** ${formatCurrency(borrowedAmt)}\n\n💡 Қарыздарды уақытында жабу қаржылық беделіңіз бен басыңыздың амандығы үшін ең маңызды фактор!`,
+      uz: `⏳ **Qarzlar bo'yicha ma'lumot:**\n\n• **Natijadagi Qarzlar Soni:** ${activeDebts.length}\n• **Qaytarish kerak bo'lgan qarz:** ${formatCurrency(borrowedAmt)}\n\n💡 Qarzlarni o'z vaqtida yopish moliyaviy barqarorlik uchun eng muhim qadamdir!`,
+      ru: `⏳ **Информация о Долгах:**\n\n• **Активных долгов:** ${activeDebts.length}\n• **Сумма к возврату:** ${formatCurrency(borrowedAmt)}\n\n💡 Своевременное погашение долгов повышает вашу финансовую стабильность!`
+    };
+    return debtResp[lang] || debtResp['kk'];
+  }
+
+  // Default smart general response
+  const generalResp = {
+    kk: `💡 **FinFlow Қаржылық Ақылды Кеңесі:**\n\n1. **50/30/20 ережесін ұстаныңыз**: Кірістің 50% негізгі қажеттілікке, 30% қалауларға, 20% жинаққа бөліңіз.\n2. **Захира қорын жасаңыз**: Кем дегенде 3-6 айлық шығысты жабатын резерв жинаңыз.\n3. **Күнделікті есеп жүргізіңіз**: Жұмсалған әрбір теңгені FinFlow қосымшасына жазып отырыңыз!\n\nСұрағыңыз болса, мархабат, маған жазыңыз! 😊`,
+    uz: `💡 **FinFlow Moliyaviy Aqlli Maslahati:**\n\n1. **50/30/20 qoidasiga amal qiling**: Daromadning 50% qismini asosiy ehtiyojlarga, 30% xohishlarga, 20% zaxiraga ajrating.\n2. **Zaxira fondini yarating**: Kamida 3-6 oylik xarajatlarni qoplaydigan zaxira yig'ing.\n3. **Kunlik hisob yuriting**: Har bir sarflangan summani FinFlow ilovasiga kiritib boring!\n\nSavolingiz bo'lsa, marhamat, menga yozing! 😊`,
+    ru: `💡 **Умный Финансовый Совет FinFlow:**\n\n1. **Правило 50/30/20**: 50% на основные нужды, 30% на желания, 20% в сбережения.\n2. **Создайте подушку безопасности**: Отложите сумму равную 3-6 месячным расходам.\n3. **Ведите ежедневный учет**: Записывайте каждые траты в приложение FinFlow!\n\nЗадавайте любые вопросы, я с радостью отвечу! 😊`
+  };
+
+  return generalResp[lang] || generalResp['kk'];
+}
+
 async function sendAIMessage() {
   const input = document.getElementById('ai-user-input');
   const sendBtn = document.getElementById('ai-send-btn');
@@ -2993,43 +3078,53 @@ async function sendAIMessage() {
   const typingEl = showAITyping();
 
   try {
-    const systemCtx = buildAIContext();
-    const history = aiChatHistory.map(m => ({
-      role: m.role,
-      parts: [{ text: m.text }]
-    }));
+    let aiText = '';
 
-    const langDirectives = {
-      kk: " (НАЗАР АУДАРЫҢЫЗ: ТЕК ҚАЗАҚ ТІЛІНДЕ ЖАУАП БЕРІҢІЗ! Өзбек немесе орыс тілінде жауап беруге ҚАТАҢ ТЫЙЫМ САЛЫНАДЫ!)",
-      uz: " (DIQQAT: FAQAT O'ZBEK TILIDA JAVOB BERING!)",
-      ru: " (ВНИМАНИЕ: ОТВЕЧАЙТЕ СТРОГО НА РУССКОМ ЯЗЫКЕ!)",
-      en: " (ATTENTION: ALWAYS RESPOND STRICTLY IN ENGLISH ONLY!)",
-      tr: " (DİKKAT: HER ZAMAN SADECE TÜRKÇE CEVAP VERİN!)",
-      ky: " (КӨҢҮЛ БУРУҢУЗ: ТЕК ГАНА КЫРГЫЗ ТИЛИНДЕ ЖООП БЕРИҢИЗ!)",
-      tg: " (ДИҚҚАТ: ТАНҲО БА ЗАБОНИ ТОҶИКӢ ҶАВОБ ДИҲЕД!)"
-    };
+    // Check if Gemini API key is configured and valid
+    if (GEMINI_API_KEY && !GEMINI_API_KEY.includes('ReplaceWithYourKey')) {
+      const systemCtx = buildAIContext();
+      const history = aiChatHistory.map(m => ({
+        role: m.role === 'user' ? 'user' : 'model',
+        parts: [{ text: m.text || '' }]
+      }));
 
-    const userLang = state.language || 'kk';
-    const promptedText = text + (langDirectives[userLang] || langDirectives['kk']);
+      const langDirectives = {
+        kk: " (НАЗАР АУДАРЫҢЫЗ: ТЕК ҚАЗАҚ ТІЛІНДЕ ЖАУАП БЕРІҢІЗ! Өзбек немесе орыс тілінде жауап беруге ҚАТАҢ ТЫЙЫМ САЛЫНАДЫ!)",
+        uz: " (DIQQAT: FAQAT O'ZBEK TILIDA JAVOB BERING!)",
+        ru: " (ВНИМАНИЕ: ОТВЕЧАЙТЕ СТРОГО НА РУССКОМ ЯЗЫКЕ!)",
+        en: " (ATTENTION: ALWAYS RESPOND STRICTLY IN ENGLISH ONLY!)",
+        tr: " (DİKKAT: HER ZAMAN SADECE TÜRKÇE CEVAP VERİN!)",
+        ky: " (КӨҢҮЛ БУРУҢУЗ: ТЕК ГАНА КЫРГЫЗ ТИЛИНДЕ ЖООП БЕРИҢИЗ!)",
+        tg: " (ДИҚҚАТ: ТАНҲО БА ЗАБОНИ ТОҶИКӢ ҶАВОБ ДИҲЕД!)"
+      };
 
-    const body = {
-      system_instruction: { parts: [{ text: systemCtx }] },
-      systemInstruction: { parts: [{ text: systemCtx }] },
-      contents: [
-        ...history,
-        { role: 'user', parts: [{ text: promptedText }] }
-      ]
-    };
+      const userLang = state.language || 'kk';
+      const promptedText = text + (langDirectives[userLang] || langDirectives['kk']);
 
-    const resp = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(body)
-    });
+      const body = {
+        system_instruction: { parts: [{ text: systemCtx }] },
+        contents: [
+          ...history,
+          { role: 'user', parts: [{ text: promptedText }] }
+        ]
+      };
 
-    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
-    const data = await resp.json();
-    let aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || getMsg('ai_error');
+      const resp = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(body)
+      });
+
+      if (resp.ok) {
+        const data = await resp.json();
+        aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+      }
+    }
+
+    // Fallback to Smart Native AI Engine if API text is empty
+    if (!aiText) {
+      aiText = generateLocalAIResponse(text);
+    }
 
     // Smart Quick Transaction Detection
     const txMatch = text.match(/^([a-zA-Zа-яА-ЯёЁӨөӘәҒғҚқҢңҮүҰұҺһo'g's'h'—\s]{2,})\s+(\d+[\d\s]*)$/);
@@ -3065,13 +3160,13 @@ async function sendAIMessage() {
 
     aiChatHistory.push({ role: 'user', text });
     aiChatHistory.push({ role: 'model', text: aiText });
-    // Keep history manageable (last 10 exchanges)
     if (aiChatHistory.length > 20) aiChatHistory = aiChatHistory.slice(-20);
 
   } catch (err) {
     if (typingEl) typingEl.remove();
-    appendAIMessage('ai', getMsg('ai_error'));
-    console.error('AI error:', err);
+    const fallbackText = generateLocalAIResponse(text);
+    appendAIMessage('ai', fallbackText);
+    console.error('AI error fallback:', err);
   } finally {
     input.disabled = false;
     if (sendBtn) sendBtn.disabled = false;
