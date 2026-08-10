@@ -1130,7 +1130,7 @@ const TRANSLATIONS = {
 };
 
 const LANGUAGES = {
-  kk: { name: "Қазақша", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'><rect width='1000' height='500' fill='%2300afca'/><path fill='%23ffe800' d='M60 50h30v400H60zM75 70c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30z'/><circle cx='550' cy='220' r='75' fill='%23ffe800'/><g fill='%23ffe800'><path d='M550 125l8 18h-16zM550 315l8-18h-16zM455 220l18 8v-16zM645 220l-18 8v-16z'/><path d='M483 153l17 7-6-17zM617 287l-17-7 6 17zM483 287l7-17 11 13zM617 153l-7 17-11-13z'/></g><path fill='%23ffe800' d='M550 315c-60 0-110-25-135-45 35 5 85 10 135 10s100-5 135-10c-25 20-75 45-135 45z'/></svg>", code: "KZ" },
+  kk: { name: "Қазақша", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'><rect width='1000' height='500' fill='%2300b0e6'/><g fill='%23ffe800'><path d='M45 40h20v420H45z'/><path d='M45 60c25-25 50-25 50 0s-25 35-50 15M45 160c25-25 50-25 50 0s-25 35-50 15M45 260c25-25 50-25 50 0s-25 35-50 15M45 360c25-25 50-25 50 0s-25 35-50 15'/></g><circle cx='550' cy='200' r='65' fill='%23ffe800'/><g fill='%23ffe800'><path d='M550 120l7 20h-14zM550 280l7-20h-14zM470 200l20 7v-14zM630 200l-20 7v-14zM493 143l17 12-12-14zM607 257l-17-12 12 14zM493 257l12-17-14 12zM607 143l-12 17 14-12zM518 127l11 18-7-16zM582 273l-11-18 7 16zM477 232l18-11-16 7zM623 168l-18 11 16-7z'/></g><path fill='%23ffe800' d='M550 275c-55 0-115 22-160 48 50-12 105-10 160 14 55-24 110-26 160-14-45-26-105-48-160-48z'/></svg>", code: "KZ" },
   uz: { name: "O'zbekcha", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 250'><rect width='500' height='80' fill='%230099b5'/><rect y='80' width='500' height='5' fill='%23d52b1e'/><rect y='85' width='500' height='80' fill='%23ffffff'/><rect y='165' width='500' height='5' fill='%23d52b1e'/><rect y='170' width='500' height='80' fill='%231eb53a'/><circle cx='50' cy='40' r='18' fill='%23ffffff'/><circle cx='58' cy='40' r='16' fill='%230099b5'/></svg>", code: "UZ" },
   ru: { name: "Русский", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 600'><rect width='900' height='200' fill='%23ffffff'/><rect y='200' width='900' height='200' fill='%230039a6'/><rect y='400' width='900' height='200' fill='%23d52b1e'/></svg>", code: "RU" },
   en: { name: "English", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 741 390'><rect width='741' height='390' fill='%23b22234'/><path d='M0 60h741M0 120h741M0 180h741M0 240h741M0 300h741M0 360h741' stroke='%23fff' stroke-width='30'/><rect width='296' height='210' fill='%233c3b6e'/></svg>", code: "EN" },
@@ -1150,7 +1150,7 @@ const LANG_TO_CURRENCY = {
 };
 
 const CURRENCIES = {
-  KZT: { sym: "₸", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'><rect width='1000' height='500' fill='%2300afca'/><path fill='%23ffe800' d='M60 50h30v400H60zM75 70c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30zm0 100c15 0 25 15 25 30s-10 30-25 30-25-15-25-30 10-30 25-30z'/><circle cx='550' cy='220' r='75' fill='%23ffe800'/><g fill='%23ffe800'><path d='M550 125l8 18h-16zM550 315l8-18h-16zM455 220l18 8v-16zM645 220l-18 8v-16z'/><path d='M483 153l17 7-6-17zM617 287l-17-7 6 17zM483 287l7-17 11 13zM617 153l-7 17-11-13z'/></g><path fill='%23ffe800' d='M550 315c-60 0-110-25-135-45 35 5 85 10 135 10s100-5 135-10c-25 20-75 45-135 45z'/></svg>", name: "Қазақ теңгесі (KZT)" },
+  KZT: { sym: "₸", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1000 500'><rect width='1000' height='500' fill='%2300b0e6'/><g fill='%23ffe800'><path d='M45 40h20v420H45z'/><path d='M45 60c25-25 50-25 50 0s-25 35-50 15M45 160c25-25 50-25 50 0s-25 35-50 15M45 260c25-25 50-25 50 0s-25 35-50 15M45 360c25-25 50-25 50 0s-25 35-50 15'/></g><circle cx='550' cy='200' r='65' fill='%23ffe800'/><g fill='%23ffe800'><path d='M550 120l7 20h-14zM550 280l7-20h-14zM470 200l20 7v-14zM630 200l-20 7v-14zM493 143l17 12-12-14zM607 257l-17-12 12 14zM493 257l12-17-14 12zM607 143l-12 17 14-12zM518 127l11 18-7-16zM582 273l-11-18 7 16zM477 232l18-11-16 7zM623 168l-18 11 16-7z'/></g><path fill='%23ffe800' d='M550 275c-55 0-115 22-160 48 50-12 105-10 160 14 55-24 110-26 160-14-45-26-105-48-160-48z'/></svg>", name: "Қазақ теңгесі (KZT)" },
   UZS: { sym: "soʻm", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 500 250'><rect width='500' height='80' fill='%230099b5'/><rect y='80' width='500' height='5' fill='%23d52b1e'/><rect y='85' width='500' height='80' fill='%23ffffff'/><rect y='165' width='500' height='5' fill='%23d52b1e'/><rect y='170' width='500' height='80' fill='%231eb53a'/><circle cx='50' cy='40' r='18' fill='%23ffffff'/><circle cx='58' cy='40' r='16' fill='%230099b5'/></svg>", name: "O'zbek so'mi (UZS)" },
   RUB: { sym: "₽", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 900 600'><rect width='900' height='200' fill='%23ffffff'/><rect y='200' width='900' height='200' fill='%230039a6'/><rect y='400' width='900' height='200' fill='%23d52b1e'/></svg>", name: "Российский рубль (RUB)" },
   USD: { sym: "$", flag: "data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 741 390'><rect width='741' height='390' fill='%23b22234'/><path d='M0 60h741M0 120h741M0 180h741M0 240h741M0 300h741M0 360h741' stroke='%23fff' stroke-width='30'/><rect width='296' height='210' fill='%233c3b6e'/></svg>", name: "US Dollar (USD)" },
@@ -2651,21 +2651,73 @@ function buildAIContext() {
     .map(d => `  • ${d.person} — ${formatCurrency(d.amount)} (${d.type === 'lend' ? 'lent' : 'borrowed'})`)
     .join('\n');
 
+  // Subscriptions
+  const subLines = (state.subscriptions || [])
+    .slice(0, 5)
+    .map(s => `  • ${s.title}: ${formatCurrency(s.amount)} (${s.isPaidThisMonth ? 'Paid' : 'Unpaid'})`)
+    .join('\n');
+
   const currency = state.currency;
-  const lang = state.language;
+  const lang = state.language || 'kk';
 
-  return `You are a friendly, helpful personal finance assistant embedded in the FinFlow app. 
-The user's financial data:
+  const langNames = {
+    kk: "ҚАЗАҚ ТІЛІНДЕ (KAZAKH)",
+    uz: "O'ZBEK TILIDA (UZBEK)",
+    ru: "НА РУССКОМ ЯЗЫКЕ (RUSSIAN)",
+    en: "STRICTLY IN ENGLISH",
+    tr: "TÜRKÇE (TURKISH)",
+    ky: "КЫРГЫЗ ТИЛИНДЕ (KYRGYZ)",
+    tg: "БА ЗАБОНИ ТОҶИКӢ (TAJIK)"
+  };
+
+  const langPrompts = {
+    kk: `СІЗ — FINFLOW ҚАРЖЫЛЫҚ АҚЫЛДЫ АССИСТЕНТІСІЗ (AI Financial Advisor).
+АСА МАҢЫЗДЫ ТАЛАП: Пайдаланушы қай тілде жазса да, сіз ӘРҚАШАН ТЕК ҚАЗАҚ ТІЛІНДЕ (KAZAKH LANGUAGE) жауап беруіңіз керек! Ешқашан өзбек, орыс немесе басқа тілде жауап бермеңіз!
+Сіз өте ақылды, кәсіби қаржылық сарапшысыз. Деректерді талдап, нақты, қысқа, құрылымдалған және өте пайдалы кеңес беріңіз.`,
+
+    uz: `SIZ — FINFLOW MOLIYAVIY AQLLI YORDAMCHISIZ (AI Financial Advisor).
+JUDA MUHIM TALAB: Foydalanuvchi qaysi tilda yozsa ham, siz HAR DOIM FAQAT O'ZBEK TILIDA (UZBEK LANGUAGE) javob berishingiz shart! Hech qachon boshqa tilda javob bermang!
+Siz juda aqlli va professional moliyaviy sarapchisiz. Ma'lumotlarni tahlil qilib, aniq, qisqa va amaliy maslahatlar bering.`,
+
+    ru: `ВЫ — ИНТЕЛЛЕКТУАЛЬНЫЙ ФИНАНСОВЫЙ КОНСУЛЬТАНТ FINFLOW (AI Financial Advisor).
+КРАЙНЕ ВАЖНОЕ ТРЕБОВАНИЕ: На каком бы языке ни писал пользователь, вы ВСЕГДА ДОЛЖНЫ ОТВЕЧАТЬ СТРОГО НА РУССКОМ ЯЗЫКЕ!
+Анализируйте данные пользователя и давайте мудрые, практичные и структурированные советы.`,
+
+    en: `YOU ARE FINFLOW SMART AI FINANCIAL ADVISOR.
+CRITICAL REQUIREMENT: REGARDLESS OF THE INPUT LANGUAGE, YOU MUST ALWAYS RESPOND STRICTLY IN ENGLISH!
+Provide smart, highly structured, insightful, and practical financial guidance based on the user's data.`,
+
+    tr: `SİZ FINFLOW AKILLI FİNANS DANIŞMANISINIZ (AI Financial Advisor).
+ÇOK ÖNEMLİ KURAL: Kullanıcı hangi dilde yazarsa yazsın, siz HER ZAMAN SADECE TÜRKÇE cevap vermek zorundasınız!
+Kullanıcının verilerini analiz edip akıllı, öz ve pratik finansal tavsiyeler verin.`,
+
+    ky: `СИЗ FINFLOW КАРЖЫЛЫК АКЫЛДУУ АССИСТЕНТИСИЗ (AI Financial Advisor).
+МААНИЛҮҮ ТАЛАП: Колдонуучу кайсы тилде жазбасын, сиз АР КАЧАН ТЕК ГАНА КЫРГЫЗ ТИЛИНДЕ жооп беришиңиз керек!
+Акылдуу, так жана пайдалуу каржылык кеңеш бериңиз.`,
+
+    tg: `ШУМО ЁРДАМЧИИ МОЛИЯВИИ ИНТЕЛЛЕКТУАЛИИ FINFLOW ҲАСТЕД (AI Financial Advisor).
+ТАЛАБОТИ ХЕЛЕ МУҲИМ: Корбар бо кадом забон нанависад, шумо ҲАМЕША ТАНҲО БА ЗАБОНИ ТОҶИКӢ ҷавоб диҳед!
+Маълумотро таҳлил карда, маслиҳатҳои оқилона ва амалӣ диҳед.`
+  };
+
+  const selectedPrompt = langPrompts[lang] || langPrompts['kk'];
+
+  return `${selectedPrompt}
+
+📊 Financial Snapshot:
 - Currency: ${currency}
-- Total income: ${formatCurrency(totalIncome)}
-- Total expenses: ${formatCurrency(totalExpense)}
-- Current balance: ${formatCurrency(balance)}
-- Savings rate: ${totalIncome > 0 ? Math.round(((totalIncome - totalExpense) / totalIncome) * 100) : 0}%
-- Top expense categories:\n${catLines || '  (no expenses yet)'}
-- Active debts:\n${debtLines || '  (no active debts)'}
-- Recent transactions: ${state.transactions.slice(0, 3).map(t => `${t.type} ${formatCurrency(t.amount)} (${t.category})`).join(', ') || 'none'}
+- Total Income: ${formatCurrency(totalIncome)}
+- Total Expenses: ${formatCurrency(totalExpense)}
+- Net Balance: ${formatCurrency(balance)}
+- Savings Rate: ${totalIncome > 0 ? Math.round(((totalIncome - totalExpense) / totalIncome) * 100) : 0}%
+- Top Expense Categories:
+${catLines || '  (none)'}
+- Active Debts:
+${debtLines || '  (none)'}
+- Recurring Payments:
+${subLines || '  (none)'}
 
-User's language: ${lang}. ALWAYS respond in the SAME language the user writes in (${lang}). Be concise, practical and encouraging. Format with bullet points when listing multiple items.`;
+Mandate: Respond STRICTLY IN ${langNames[lang] || 'KAZAKH'}. Format responses beautifully with bold headers, emojis, and bullet points.`;
 }
 
 function runAIFinancialAudit() {
@@ -2697,22 +2749,109 @@ function runAIFinancialAudit() {
     auditEmoji = '🔴';
   }
 
-  const auditReport = `
-📊 **AI Молиявий Экспресс-Аудит Ҳисоботи** ${auditEmoji}
+  const lang = state.language || 'kk';
 
-• **Жорий Баланс:** ${formatCurrency(balance)}
-• **Жами Кирим:** ${formatCurrency(totalIncome)}
-• **Жами Чиқим:** ${formatCurrency(totalExpense)}
-• **Жамғарма кўрсаткичи:** ${savingsRate}%
-• **Ойлик Доимий Тўловлар:** ${formatCurrency(subTotal)}
-• **Олинган Қарзлар:** ${formatCurrency(fromMe)}
+  const auditTemplates = {
+    kk: `📊 **AI Қаржылық Экспресс-Аудит Есебі** ${auditEmoji}
 
-💡 **AI Тавсияси:**
-1. ${savingsRate > 20 ? 'Ажойиб натижа! Жамғарилган пулни инвестиция қилиш ёки захира фондига ўтказиш тавсия этилади.' : 'Ҳар ойлик чиқимларнинг 15-20% қисмини олдиндан захирага олиб қўйишни одат қилинг.'}
-2. ${subTotal > 0 ? `Ойлик доимий тўловларингиз (${formatCurrency(subTotal)}) умумий чиқимларнинг салмоқли қисмини ташкил этмоқда.` : 'Доимий тўловларингизни тартибли назорат қилиб боринг.'}
-3. ${fromMe > 0 ? `Беретинингиз (${formatCurrency(fromMe)}) қарзни биринчи навбатда ёпиш фойдали.` : 'Қарз юкингиз йўқ — бу молиявий эркинлигингизни оширади!'}
-`;
+• **Ағымдағы Баланс:** ${formatCurrency(balance)}
+• **Жалпы Кіріс:** ${formatCurrency(totalIncome)}
+• **Жалпы Шығыс:** ${formatCurrency(totalExpense)}
+• **Жинақ Көрсеткіші:** ${savingsRate}%
+• **Айлық Тұрақты Төлемдер:** ${formatCurrency(subTotal)}
+• **Алынған Қарыздар:** ${formatCurrency(fromMe)}
 
+💡 **AI Ұсынысы:**
+1. ${savingsRate > 20 ? 'Тамаша нәтиже! Жинақталған қаражатты инвестицияға немесе резервтік қорға бағыттау ұсынылады.' : 'Әр айлық кірістің 15-20% бөлігін алдын ала резервке қоюды әдетке айналдырыңыз.'}
+2. ${subTotal > 0 ? `Айлық тұрақты төлемдеріңіз (${formatCurrency(subTotal)}) жалпы шығыстың елеулі бөлігін құрайды.` : 'Тұрақты төлемдеріңізді реттеп бақылап отырыңыз.'}
+3. ${fromMe > 0 ? `Алынған қарыздарыңызды (${formatCurrency(fromMe)}) бірінші кезекте жабу тиімді.` : 'Қарыз жүктемеңіз жоқ — бұл қаржылық еркіндігіңізді арттырады!'}`,
+
+    uz: `📊 **AI Moliyaviy Ekspress-Audit Hisoboti** ${auditEmoji}
+
+• **Joriy Balans:** ${formatCurrency(balance)}
+• **Jami Kirim:** ${formatCurrency(totalIncome)}
+• **Jami Chiqim:** ${formatCurrency(totalExpense)}
+• **Jamg'arma ko'rsatkichi:** ${savingsRate}%
+• **Oylik Doimiy To'lovlar:** ${formatCurrency(subTotal)}
+• **Olingan Qarzlar:** ${formatCurrency(fromMe)}
+
+💡 **AI Tavsiyasi:**
+1. ${savingsRate > 20 ? 'Ajoyib natija! Jamg\'arilgan pulni investitsiya qilish yoki zaxira fondiga o\'tkazish tavsiya etiladi.' : 'Har oylik chiqimlarning 15-20% qismini oldindan zaxiraga olib qo\'yishni odat qiling.'}
+2. ${subTotal > 0 ? `Oylik doimiy to'lovlargiz (${formatCurrency(subTotal)}) umumiy chiqimlarning salmoqli qismini tashkil etmoqda.` : 'Doimiy to\'lovlaringizni tartibli nazorat qilib boring.'}
+3. ${fromMe > 0 ? `Olingan qarzlaringizni (${formatCurrency(fromMe)}) birinchi navbatda yopish foydali.` : 'Qarz yukingiz yo\'q — bu moliyaviy erkinligingizni oshiradi!'}`,
+
+    ru: `📊 **Отчет Экспресс-Аудита AI** ${auditEmoji}
+
+• **Текущий Баланс:** ${formatCurrency(balance)}
+• **Общий Доход:** ${formatCurrency(totalIncome)}
+• **Общий Расход:** ${formatCurrency(totalExpense)}
+• **Уровень Сбережений:** ${savingsRate}%
+• **Ежемесячные Платежи:** ${formatCurrency(subTotal)}
+• **Текущие Долги:** ${formatCurrency(fromMe)}
+
+💡 **Рекомендация AI:**
+1. ${savingsRate > 20 ? 'Отличный результат! Рекомендуется инвестировать сбережения или отложить в резервный фонд.' : 'Старайтесь откладывать 15-20% дохода в резерв сразу после получения.'}
+2. ${subTotal > 0 ? `Регулярные платежи (${formatCurrency(subTotal)}) составляют значительную часть ваших расходов.` : 'Держите регулярные платежи под контролем.'}
+3. ${fromMe > 0 ? `Рекомендуется погасить долги (${formatCurrency(fromMe)}) в первую очередь.` : 'У вас нет долгов — это отлично повышает финансовую устойчивость!'}`,
+
+    en: `📊 **AI Financial Audit Report** ${auditEmoji}
+
+• **Current Balance:** ${formatCurrency(balance)}
+• **Total Income:** ${formatCurrency(totalIncome)}
+• **Total Expenses:** ${formatCurrency(totalExpense)}
+• **Savings Rate:** ${savingsRate}%
+• **Monthly Recurring:** ${formatCurrency(subTotal)}
+• **Active Borrowed:** ${formatCurrency(fromMe)}
+
+💡 **AI Recommendation:**
+1. ${savingsRate > 20 ? 'Great job! Consider investing your savings or putting them in a emergency fund.' : 'Try to save 15-20% of your income into emergency savings right when you earn it.'}
+2. ${subTotal > 0 ? `Recurring payments (${formatCurrency(subTotal)}) make up a significant portion of expenses.` : 'Keep your recurring payments organized.'}
+3. ${fromMe > 0 ? `Prioritize paying off active borrowed debts (${formatCurrency(fromMe)}).` : 'Zero active debts — great job maintaining financial freedom!'}`,
+
+    tr: `📊 **AI Finansal Ekspres Denetim Raporu** ${auditEmoji}
+
+• **Mevcut Bakiye:** ${formatCurrency(balance)}
+• **Toplam Gelir:** ${formatCurrency(totalIncome)}
+• **Toplam Gider:** ${formatCurrency(totalExpense)}
+• **Tasarruf Oranı:** %${savingsRate}
+• **Aylık Düzenli Ödemeler:** ${formatCurrency(subTotal)}
+• **Borçlar:** ${formatCurrency(fromMe)}
+
+💡 **AI Tavsiyesi:**
+1. ${savingsRate > 20 ? 'Harika sonuç! Birikimlerinizi yatırıma veya acil durum fonuna yönlendirmeniz önerilir.' : 'Gelirinizin %15-20 kadarlarını düzenli tasarruf etmeye çalışın.'}
+2. ${subTotal > 0 ? `Sabit ödemeleriniz (${formatCurrency(subTotal)}) giderlerinizin önemli bir kısmını oluşturuyor.` : 'Düzenli ödemelerinizi kontrol altında tutun.'}
+3. ${fromMe > 0 ? `Öncelikle borçlarınızı (${formatCurrency(fromMe)}) kapatmanız tavsiye edilir.` : 'Borcunuz yok — bu finansal özgürlüğünüzü artırır!'}`,
+
+    ky: `📊 **AI Каржылык Экспресс-Аудит Отчету** ${auditEmoji}
+
+• **Учурдагы Баланс:** ${formatCurrency(balance)}
+• **Жалпы Киреше:** ${formatCurrency(totalIncome)}
+• **Жалпы Чыгыша:** ${formatCurrency(totalExpense)}
+• **Үнөмдөө Пайызы:** ${savingsRate}%
+• **Айлык Туруктуу Төлөмдөр:** ${formatCurrency(subTotal)}
+• **Алынган Карыздар:** ${formatCurrency(fromMe)}
+
+💡 **AI Сунушу:**
+1. ${savingsRate > 20 ? 'Абдан жакшы натыйжа! Топтолгон акчаны инвестициялоо сунушталат.' : 'Ар айлык кирешенин 15-20% алдын ала фондго чогултууну адат кылыңыз.'}
+2. ${subTotal > 0 ? `Туруктуу төлөмдөрүңүз (${formatCurrency(subTotal)}) чыгышалардын негизги бөлүгүн түзөт.` : 'Төлөмдөрдү тартипте кармаңыз.'}
+3. ${fromMe > 0 ? `Карыздарды (${formatCurrency(fromMe)}) биринчи кезекте жабуу пайдалуу.` : 'Карызыңыз жок — бул абдан жакшы!'}`,
+
+    tg: `📊 **Ҳисоботи Экспресс-Аудити Молиявии AI** ${auditEmoji}
+
+• **Баланси Ҷорӣ:** ${formatCurrency(balance)}
+• **Даромади Умумӣ:** ${formatCurrency(totalIncome)}
+• **Хароҷоти Умумӣ:** ${formatCurrency(totalExpense)}
+• **Нишондиҳандаи Пасандоз:** ${savingsRate}%
+• **Пардохтҳои Мунтазами Моҳона:** ${formatCurrency(subTotal)}
+• **Қарзҳои Гирифташуда:** ${formatCurrency(fromMe)}
+
+💡 **Тавсияи AI:**
+1. ${savingsRate > 20 ? 'Натиҷаи олӣ! Маблағи сарфашударо сармоягузорӣ кунед.' : 'Ҳар моҳ 15-20%-и даромадатонро пасандоз кунед.'}
+2. ${subTotal > 0 ? `Пардохтҳои мунтазам (${formatCurrency(subTotal)}) қисми зиёди хароҷотро ташкил медиҳанд.` : 'Пардохтҳоро назорат кунед.'}
+3. ${fromMe > 0 ? `Қарзҳоро (${formatCurrency(fromMe)}) дар навбати аввал пӯшед.` : 'Қарз надоред — ин хеле хуб аст!'}`
+  };
+
+  const auditReport = auditTemplates[lang] || auditTemplates['kk'];
   appendAIMessage('ai', auditReport);
 }
 
@@ -2879,12 +3018,31 @@ async function sendAIMessage() {
     let aiText = data?.candidates?.[0]?.content?.parts?.[0]?.text || getMsg('ai_error');
 
     // Smart Quick Transaction Detection
-    const txMatch = text.match(/^([a-zA-Zа-яА-ЯёЁo'g's'h'—\s]{2,})\s+(\d+[\d\s]*)$/);
+    const txMatch = text.match(/^([a-zA-Zа-яА-ЯёЁӨөӘәҒғҚқҢңҮүҰұҺһo'g's'h'—\s]{2,})\s+(\d+[\d\s]*)$/);
     if (txMatch) {
       const matchTitle = txMatch[1].trim();
       const matchNum = parseFloat(txMatch[2].replace(/\s+/g, ''));
       if (matchNum > 0 && matchTitle.length >= 2) {
-        aiText += `\n\n👇 **Тезкор қўшиш:**\n<button class="sub-action-btn pay-btn" style="margin-top:6px;" onclick="quickAddAITx('${matchTitle.replace(/'/g, "\\'")}', ${matchNum}, 'expense')">➕ "${matchTitle} — ${formatCurrency(matchNum)}" Чиқимга қўшиш</button>`;
+        const quickAddHeader = {
+          kk: '👇 **Тез қосу:**',
+          uz: '👇 **Tezkor qo\'shish:**',
+          ru: '👇 **Быстрое добавление:**',
+          en: '👇 **Quick Add:**',
+          tr: '👇 **Hızlı Ekle:**',
+          ky: '👇 **Тез кошуу:**',
+          tg: '👇 **Иловаи тез:**'
+        };
+        const quickAddAction = {
+          kk: 'Шығысқа қосу',
+          uz: 'Chiqimga qo\'shish',
+          ru: 'Добавить в расходы',
+          en: 'Add to Expenses',
+          tr: 'Giderlere Ekle',
+          ky: 'Чыгышага кошуу',
+          tg: 'Илова ба хароҷот'
+        };
+        const lang = state.language || 'kk';
+        aiText += `\n\n${quickAddHeader[lang] || quickAddHeader['kk']}\n<button class="sub-action-btn pay-btn" style="margin-top:6px;" onclick="quickAddAITx('${matchTitle.replace(/'/g, "\\'")}', ${matchNum}, 'expense')">➕ "${matchTitle} — ${formatCurrency(matchNum)}" ${quickAddAction[lang] || quickAddAction['kk']}</button>`;
       }
     }
 
