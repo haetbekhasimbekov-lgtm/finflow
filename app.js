@@ -1207,7 +1207,47 @@ let state = {
 const STORAGE_KEY = 'finflow_v7_kk_kz_final'; // Force final Kazakh default state refresh on phone
 
 
-// --- PERSISTENCE ---------------------------------------------------------
+// --- PERSISTENCE & DATABASE SYNC -----------------------------------------
+let lastServerSyncJson = '';
+
+async function syncWithServerDatabase() {
+  try {
+    const resp = await fetch('/api/data', { method: 'GET', headers: { 'Cache-Control': 'no-cache' } });
+    if (!resp.ok) return;
+    const remoteData = await resp.json();
+    if (!remoteData || remoteData.status === 'empty') return;
+    
+    const remoteJson = JSON.stringify(remoteData);
+    if (remoteJson !== lastServerSyncJson && remoteJson !== JSON.stringify(state)) {
+      lastServerSyncJson = remoteJson;
+      state = {
+        ...state,
+        ...remoteData,
+        currentTab: state.currentTab || 'dashboard',
+        currentTxType: state.currentTxType || 'expense'
+      };
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      renderAll();
+    }
+  } catch (e) {
+    // Server offline or local fetch fallback
+  }
+}
+
+async function saveStateToServer() {
+  try {
+    const jsonStr = JSON.stringify(state);
+    lastServerSyncJson = jsonStr;
+    await fetch('/api/data', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: jsonStr
+    });
+  } catch (e) {
+    // Offline local storage fallback
+  }
+}
+
 function loadState() {
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
@@ -1228,6 +1268,10 @@ function loadState() {
       state.budgets = {};
       state.categories = JSON.parse(JSON.stringify(DEFAULT_CATEGORIES['kk']));
     }
+    syncWithServerDatabase();
+    if (!window._dbSyncInterval) {
+      window._dbSyncInterval = setInterval(syncWithServerDatabase, 5000);
+    }
   } catch (e) {
     console.warn('State load error, resetting.', e);
     resetToDefaultState();
@@ -1237,6 +1281,7 @@ function loadState() {
 function saveState() {
   try {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+    saveStateToServer();
   } catch (e) {
     console.error('Save error:', e);
   }
@@ -2998,59 +3043,118 @@ function generateLocalAIResponse(userText) {
   // Debts
   const activeDebts = state.debts.filter(d => !d.isCompleted);
   let borrowedAmt = 0;
-  activeDebts.filter(d => d.type === 'borrow').forEach(d => borrowedAmt += d.amount);
+  let toMeAmt = 0;
+  activeDebts.forEach(d => {
+    if (d.type === 'borrow') borrowedAmt += d.amount;
+    else if (d.type === 'lend') toMeAmt += d.amount;
+  });
 
-  // Quick transaction detection
+  // Date and month-end calculation
+  const now = new Date();
+  const currentDay = now.getDate();
+  const daysInMonth = new Date(now.getFullYear(), now.getMonth() + 1, 0).getDate();
+  const daysLeft = Math.max(1, daysInMonth - currentDay);
+  const avgDailyExpense = currentDay > 0 ? totalExpense / currentDay : 0;
+  const projectedMonthExpense = Math.round(totalExpense + (avgDailyExpense * daysLeft));
+
+  // 1. Quick transaction detection (e.g. "Tushlik 25000" or "Lunch 15")
   const txMatch = userText.match(/^([a-zA-Zа-яА-ЯёЁӨөӘәҒғҚқҢңҮүҰұҺһo'g's'h'—\s]{2,})\s+(\d+[\d\s]*)$/);
   if (txMatch) {
     const matchTitle = txMatch[1].trim();
     const matchNum = parseFloat(txMatch[2].replace(/\s+/g, ''));
     if (matchNum > 0 && matchTitle.length >= 2) {
       const respTemplates = {
-        kk: `✅ **"${matchTitle}"** бойынша **${formatCurrency(matchNum)}** операциясы дайын!\n\nТөмендегі түймені басып, шығыстарға тез қоса аласыз:`,
         uz: `✅ **"${matchTitle}"** bo'yicha **${formatCurrency(matchNum)}** operatsiyasi tayyor!\n\nPastroqdagi tugmani bosib chiqimlarga tez qo'shishingiz mumkin:`,
+        kk: `✅ **"${matchTitle}"** бойынша **${formatCurrency(matchNum)}** операциясы дайын!\n\nТөмендегі түймені басып, шығыстарға тез қоса аласыз:`,
         ru: `✅ Операция **"${matchTitle}"** на сумму **${formatCurrency(matchNum)}** готова!\n\nНажмите кнопку ниже для быстрого добавления в расходы:`,
-        en: `✅ Transaction **"${matchTitle}"** for **${formatCurrency(matchNum)}** is ready!\n\nClick the button below to quickly add to expenses:`
+        en: `✅ Transaction **"${matchTitle}"** for **${formatCurrency(matchNum)}** is ready!\n\nClick the button below to quickly add to expenses:`,
+        tr: `✅ **"${matchTitle}"** için **${formatCurrency(matchNum)}** tutarındaki işlem hazır!\n\nGiderlere hızlıca eklemek için aşağıdaki butona tıklayın:`,
+        ky: `✅ **"${matchTitle}"** боюнча **${formatCurrency(matchNum)}** операциясы даяр!\n\nЧыгашаларга тез кошуу үчүн төмөндөгү баскычты басыңыз:`,
+        tg: `✅ Амалиёт **"${matchTitle}"** ба маблағи **${formatCurrency(matchNum)}** тайёр аст!\n\nБарои иловаи тез ба хароҷот тугмаи зерро пахш кунед:`
       };
       return respTemplates[lang] || respTemplates['kk'];
     }
   }
 
-  // Balance query
-  if (text.includes('баланс') || text.includes('кіріс') || text.includes('қор') || text.includes('balance') || text.includes('kirim')) {
+  // 2. Balance query
+  if (text.includes('balans') || text.includes('баланс') || text.includes('balance') || text.includes('bakiye') || text.includes('kirim') || text.includes('кіріс') || text.includes('доход') || text.includes('income') || text.includes('gelir') || text.includes('киреше') || text.includes('даромад')) {
     const balanceResp = {
-      kk: `📊 **Сіздің Қаржылық Статистикаңыз:**\n\n• **Ағымдағы Баланс:** ${formatCurrency(balance)}\n• **Жалпы Кіріс:** ${formatCurrency(totalIncome)}\n• **Жалпы Шығыс:** ${formatCurrency(totalExpense)}\n• **Жинақ Пайызы:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Балансыңыз оң көрсеткіште! Кірістің кемінде 20% бөлігін жинаққа қосуды ұсынамын.' : 'Шығыстарыңыз кірістен асып кетті! Қажетсіз шығыстарды азайту ұсынылады.'}`,
       uz: `📊 **Sizning Moliyaviy Statistikangiz:**\n\n• **Joriy Balans:** ${formatCurrency(balance)}\n• **Jami Kirim:** ${formatCurrency(totalIncome)}\n• **Jami Chiqim:** ${formatCurrency(totalExpense)}\n• **Jamg'arma ko'rsatkichi:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Balansingiz ijobiy! Daromadning kamida 20% qismini zaxiraga ajratishni tavsiya etaman.' : 'Chiqimlaringiz daromadingizdan oshib ketgan! Zudlik bilan keraksiz xarajatlarni qisqartiring.'}`,
-      ru: `📊 **Ваша Финансовая Статистика:**\n\n• **Текущий Баланс:** ${formatCurrency(balance)}\n• **Общий Доход:** ${formatCurrency(totalIncome)}\n• **Общий Расход:** ${formatCurrency(totalExpense)}\n• **Норма Сбережений:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Баланс положительный! Рекомендуется откладывать 20% дохода.' : 'Расходы превышают доходы! Рекомендуется сократить непервостепенные траты.'}`
+      kk: `📊 **Сіздің Қаржылық Статистикаңыз:**\n\n• **Ағымдағы Баланс:** ${formatCurrency(balance)}\n• **Жалпы Кіріс:** ${formatCurrency(totalIncome)}\n• **Жалпы Шығыс:** ${formatCurrency(totalExpense)}\n• **Жинақ Пайызы:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Балансыңыз оң көрсеткіште! Кірістің кемінде 20% бөлігін жинаққа қосуды ұсынамын.' : 'Шығыстарыңыз кірістен асып кетті! Қажетсіз шығыстарды азайту ұсынылады.'}`,
+      ru: `📊 **Ваша Финансовая Статистика:**\n\n• **Текущий Баланс:** ${formatCurrency(balance)}\n• **Общий Доход:** ${formatCurrency(totalIncome)}\n• **Общий Расход:** ${formatCurrency(totalExpense)}\n• **Норма Сбережений:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Баланс положительный! Рекомендуется откладывать 20% дохода в сбережения.' : 'Расходы превышают доходы! Рекомендуется срочно сократить расходы.'}`,
+      en: `📊 **Your Financial Snapshot:**\n\n• **Current Balance:** ${formatCurrency(balance)}\n• **Total Income:** ${formatCurrency(totalIncome)}\n• **Total Expenses:** ${formatCurrency(totalExpense)}\n• **Savings Rate:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Your net balance is positive! Try to save at least 20% of your earnings.' : 'Your expenses exceed your income! Cut back non-essential expenses immediately.'}`,
+      tr: `📊 **Finansal Durum Özetiniz:**\n\n• **Mevcut Bakiye:** ${formatCurrency(balance)}\n• **Toplam Gelir:** ${formatCurrency(totalIncome)}\n• **Toplam Gider:** ${formatCurrency(totalExpense)}\n• **Tasarruf Oranı:** %${savingsRate}\n\n💡 ${balance >= 0 ? 'Bakiyeniz artıdadır! Gelirinizin en az %20 kadarlarını birikime ayırmanız önerilir.' : 'Giderleriniz gelirinizi aştı! Gereksiz harcamaları derhal kısıtlayın.'}`,
+      ky: `📊 **Сиздин Каржылык Статистикаңыз:**\n\n• **Учурдагы Баланс:** ${formatCurrency(balance)}\n• **Жалпы Киреше:** ${formatCurrency(totalIncome)}\n• **Жалпы Чыгыша:** ${formatCurrency(totalExpense)}\n• **Үнөмдөө Пайызы:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Балансыңыз оң көрсөткүчтө! Кирешенин 20% дароо резервке чогултуңуз.' : 'Чыгашалар кирешеден ашып кетти! Кажетсиз чыгашаларды тез арада азайтыңыз.'}`,
+      tg: `📊 **Авзои Молиявии Шумо:**\n\n• **Баланси Ҷорӣ:** ${formatCurrency(balance)}\n• **Даромади Умумӣ:** ${formatCurrency(totalIncome)}\n• **Хароҷоти Умумӣ:** ${formatCurrency(totalExpense)}\n• **Нишондиҳандаи Пасандоз:** ${savingsRate}%\n\n💡 ${balance >= 0 ? 'Баланси шумо мусбат аст! Ҳадди ақал 20%-и даромадро пасандоз кунед.' : 'Хароҷот аз даромад зиёд аст! Хароҷоти нолозимро фавран кам кунед.'}`
     };
     return balanceResp[lang] || balanceResp['kk'];
   }
 
-  // Expense query
-  if (text.includes('шығыс') || text.includes('расход') || text.includes('expense') || text.includes('санат')) {
+  // 3. Expense query
+  if (text.includes('chiqim') || text.includes('xarajat') || text.includes('шығыс') || text.includes('расход') || text.includes('expense') || text.includes('gider') || text.includes('чыгыша') || text.includes('хароҷот') || text.includes('kategori') || text.includes('санат') || text.includes('траты')) {
     const expResp = {
-      kk: `📉 **Шығыстар Талдауы:**\n\n• **Жалпы Шығыс:** ${formatCurrency(totalExpense)}\n\n**Ең көп жұмсалған санаттар:**\n${topCatLines || '• Деректер жоқ'}\n\n💡 Ең көп қаражат кететін 1-2 санатты бақылауға алып, айлық лимит қою арқылы шығысты 15-30% үнемдей аласыз.`,
-      uz: `📉 **Chiqimlar Tahlili:**\n\n• **Jami Chiqim:** ${formatCurrency(totalExpense)}\n\n**Eng ko'p xarajat qilingan kategoriyalar:**\n${topCatLines || '• Ma\'lumot yo\'q'}\n\n💡 Eng ko'p xarajat qilinayotgan 1-2 kategoriyaga oylik limit qo'yish orqali xarajatlarni 15-30% tejashingiz mumkin.`,
-      ru: `📉 **Анализ Расходов:**\n\n• **Общие Расходы:** ${formatCurrency(totalExpense)}\n\n**Топ категорий трат:**\n${topCatLines || '• Нет данных'}\n\n💡 Установите лимиты на основные категории расходов для экономии 15-30% средств.`
+      uz: `📉 **Chiqimlar Tahlili:**\n\n• **Jami Chiqim:** ${formatCurrency(totalExpense)}\n• **Kunlik o'rtacha:** ${formatCurrency(Math.round(avgDailyExpense))}\n\n**Eng ko'p xarajat qilingan kategoriyalar:**\n${topCatLines || '• Ma\'lumot yo\'q'}\n\n💡 Eng ko'p xarajat qilinayotgan 1-2 kategoriyaga oylik limit qo'yish orqali xarajatlarni 15-30% tejashingiz mumkin.`,
+      kk: `📉 **Шығыстар Талдауы:**\n\n• **Жалпы Шығыс:** ${formatCurrency(totalExpense)}\n• **Күнделікті орташа:** ${formatCurrency(Math.round(avgDailyExpense))}\n\n**Ең көп жұмсалған санаттар:**\n${topCatLines || '• Деректер жоқ'}\n\n💡 Ең көп қаражат кететін 1-2 санатты бақылауға алып, айлық лимит қою арқылы шығысты 15-30% үнемдей аласыз.`,
+      ru: `📉 **Анализ Расходов:**\n\n• **Общие Расходы:** ${formatCurrency(totalExpense)}\n• **В среднем в день:** ${formatCurrency(Math.round(avgDailyExpense))}\n\n**Топ категорий трат:**\n${topCatLines || '• Нет данных'}\n\n💡 Установите лимиты на основные категории расходов для экономии 15-30% средств.`,
+      en: `📉 **Expense Breakdown:**\n\n• **Total Expenses:** ${formatCurrency(totalExpense)}\n• **Daily Average:** ${formatCurrency(Math.round(avgDailyExpense))}\n\n**Top Spending Categories:**\n${topCatLines || '• No data'}\n\n💡 Set category budgets for your highest spending categories to cut expenses by 15-30%.`,
+      tr: `📉 **Gider Analizi:**\n\n• **Toplam Gider:** ${formatCurrency(totalExpense)}\n• **Günlük Ortalama:** ${formatCurrency(Math.round(avgDailyExpense))}\n\n**En Çok Harcanan Kategoriler:**\n${topCatLines || '• Veri yok'}\n\n💡 En fazla harcama yapılan kategorilere bütçe limiti koyarak %15-30 tasarruf edebilirsiniz.`,
+      ky: `📉 **Чыгашалар Талдоосу:**\n\n• **Жалпы Чыгыша:** ${formatCurrency(totalExpense)}\n• **Күнүмдүк орточо:** ${formatCurrency(Math.round(avgDailyExpense))}\n\n**Эң көп сарпталган категориялар:**\n${topCatLines || '• Маалымат жок'}\n\n💡 Эң көп акча кетип жаткан категорияларга лимит коюп, 15-30% үнөмдөңүз.`,
+      tg: `📉 **Таҳлили Хароҷот:**\n\n• **Хароҷоти Умумӣ:** ${formatCurrency(totalExpense)}\n• **Миёнаи рӯзона:** ${formatCurrency(Math.round(avgDailyExpense))}\n\n**Категорияҳои бештари хароҷот:**\n${topCatLines || '• Маълумот нест'}\n\n💡 Гузоштани лимит барои категорияҳои асосӣ хароҷотро 15-30% сарфа мекунад.`
     };
     return expResp[lang] || expResp['kk'];
   }
 
-  // Debt query
-  if (text.includes('қарыз') || text.includes('долг') || text.includes('debt') || text.includes('берішек')) {
+  // 4. Debt query
+  if (text.includes('qarz') || text.includes('қарыз') || text.includes('долг') || text.includes('debt') || text.includes('borç') || text.includes('карыз') || text.includes('қарз') || text.includes('кредит')) {
     const debtResp = {
-      kk: `⏳ **Қарыздар бойынша ақпарат:**\n\n• **Белсенді Қарыздар Саны:** ${activeDebts.length}\n• **Қайтару керек қарыз:** ${formatCurrency(borrowedAmt)}\n\n💡 Қарыздарды уақытында жабу қаржылық беделіңіз бен басыңыздың амандығы үшін ең маңызды фактор!`,
-      uz: `⏳ **Qarzlar bo'yicha ma'lumot:**\n\n• **Natijadagi Qarzlar Soni:** ${activeDebts.length}\n• **Qaytarish kerak bo'lgan qarz:** ${formatCurrency(borrowedAmt)}\n\n💡 Qarzlarni o'z vaqtida yopish moliyaviy barqarorlik uchun eng muhim qadamdir!`,
-      ru: `⏳ **Информация о Долгах:**\n\n• **Активных долгов:** ${activeDebts.length}\n• **Сумма к возврату:** ${formatCurrency(borrowedAmt)}\n\n💡 Своевременное погашение долгов повышает вашу финансовую стабильность!`
+      uz: `⏳ **Qarzlar bo'yicha ma'lumot:**\n\n• **Faol Qarzlar Soni:** ${activeDebts.length}\n• **Qaytarish kerak bo'lgan qarz (Olingan):** ${formatCurrency(borrowedAmt)}\n• **Menga qaytariladigan qarz (Berilgan):** ${formatCurrency(toMeAmt)}\n\n💡 Qarzlarni o'z vaqtida yopish moliyaviy barqarorlik uchun eng muhim qadamdir!`,
+      kk: `⏳ **Қарыздар бойынша ақпарат:**\n\n• **Белсенді Қарыздар Саны:** ${activeDebts.length}\n• **Қайтару керек қарыз (Алынған):** ${formatCurrency(borrowedAmt)}\n• **Маған қайтару керек (Берілген):** ${formatCurrency(toMeAmt)}\n\n💡 Қарыздарды уақытында жабу қаржылық беделіңіз бен басыңыздың амандығы үшін ең маңызды фактор!`,
+      ru: `⏳ **Информация о Долгах:**\n\n• **Активных долгов:** ${activeDebts.length}\n• **Взято в долг (к возврату):** ${formatCurrency(borrowedAmt)}\n• **Дано в долг (мне должны):** ${formatCurrency(toMeAmt)}\n\n💡 Своевременное погашение долгов повышает вашу финансовую устойчивость!`,
+      en: `⏳ **Debt Summary:**\n\n• **Active Debts Count:** ${activeDebts.length}\n• **Borrowed (I owe):** ${formatCurrency(borrowedAmt)}\n• **Lent (Owed to me):** ${formatCurrency(toMeAmt)}\n\n💡 Clearing high-interest debts early grants total financial stability!`,
+      tr: `⏳ **Borç Durumu:**\n\n• **Aktif Borç Sayısı:** ${activeDebts.length}\n• **Alınan Borç (Ödenecek):** ${formatCurrency(borrowedAmt)}\n• **Verilen Borç (Alınacak):** ${formatCurrency(toMeAmt)}\n\n💡 Borçları zamanında kapatmak finansal huzurunuzun anahtarıdır!`,
+      ky: `⏳ **Карыздар Боюнча Маалымат:**\n\n• **Активдүү Карыздар:** ${activeDebts.length}\n• **Алынган карыз (Кайтаруу керек):** ${formatCurrency(borrowedAmt)}\n• **Берилген карыз (Мага қайтарылуучу):** ${formatCurrency(toMeAmt)}\n\n💡 Карыздарды убагында жабуу каржылык туруктуулуктун кепили!`,
+      tg: `⏳ **Маълумот дар бораи Қарзҳо:**\n\n• **Қарзҳои Фаъол:** ${activeDebts.length}\n• **Қарзи Гирифташуда (Бозгашт):** ${formatCurrency(borrowedAmt)}\n• **Қарзи Додашуда (Ба ман):** ${formatCurrency(toMeAmt)}\n\n💡 Пӯшидани қарзҳо дар вақти муайяншуда молияи шуморо устувор мекунад!`
     };
     return debtResp[lang] || debtResp['kk'];
   }
 
-  // Default smart general response
+  // 5. Tips & Savings query
+  if (text.includes('maslahat') || text.includes('tejamkorlik') || text.includes('кеңес') || text.includes('үнемдеу') || text.includes('совет') || text.includes('экономия') || text.includes('tip') || text.includes('advice') || text.includes('save') || text.includes('tavsiye') || text.includes('сунуш') || text.includes('маслиҳат')) {
+    const tipResp = {
+      uz: `🎯 **Aqlli Jamg'arma va Tejamkorlik Maslahatlari:**\n\n1. **50/30/20 qoidasi**: Daromadning 50% qismini zaruriy ehtiyojlarga, 30% xohishlarga, 20% jamg'armaga ajrating.\n2. **Zaxira fondi**: Kamida 3-6 oylik xarajatlarni qoplaydigan zaxira yig'ing.\n3. **Avto-jamg'arma**: Ish haqi olgan kuni 15-20% qismini darhol zaxiraga olib qo'ying!`,
+      kk: `🎯 **Ақылды Жинақтау мен Үнемдеу Кеңестері:**\n\n1. **50/30/20 ережесі**: Кірістің 50% негізгі қажеттілікке, 30% қалауларға, 20% жинаққа бөліңіз.\n2. **Захира қоры**: Кем дегенде 3-6 айлық шығысты жабатын резерв жинаңыз.\n3. **Алдымен өзіңізге төлеңіз**: Табыс түскен күні 15-20% бірден жинақ шотына аударыңыз!`,
+      ru: `🎯 **Мудрые Советы по Сбережениям:**\n\n1. **Правило 50/30/20**: 50% на основные нужды, 30% на желания, 20% в сбережения.\n2. **Подушка безопасности**: Создайте резерв на 3-6 месяцев постоянных расходов.\n3. **Платите сначала себе**: Переводите 15-20% дохода в накопления прямо в день зарплаты!`,
+      en: `🎯 **Smart Financial Savings Tips:**\n\n1. **50/30/20 Rule**: Direct 50% to needs, 30% to wants, and 20% straight to savings.\n2. **Emergency Cushion**: Save enough to cover 3 to 6 months of basic living costs.\n3. **Pay Yourself First**: Automate 15-20% transfers into savings right on payday!`,
+      tr: `🎯 **Akıllı Tasarruf ve Birikim İpuçları:**\n\n1. **50/30/20 Kuralı**: Gelirin %50'sini zorunlu ihtiyaçlara, %30'unu isteklere, %20'sini birikime ayırın.\n2. **Acil Durum Fonu**: En az 3-6 aylık zorunlu harcamanızı karşılayan birikim oluşturun.\n3. **Önce Kendinize Ödeyin**: Gelir aldığınız gün %15-20 kadarlarını hemen birikime aktarın!`,
+      ky: `🎯 **Акылдуу Үнөмдөө Кеңештери:**\n\n1. **50/30/20 Эрежеси**: Кирешенин 50% муктаждыктарга, 30% каалоолорго, 20% топтомго бөлүңүз.\n2. **Резервдик Фонд**: Кем дегенде 3 айлык чыгашаны жаба турган топтом чогултуңуз.\n3. **Дароо Резервке Салыңыз**: Киреше түшкөн күнү 15-20% өзүнчө эсепке которуңуз!`,
+      tg: `🎯 **Маслиҳатҳои Оқилонаи Пасандоз:**\n\n1. **Қоидаи 50/30/20**: 50%-и даромад барои эҳтиёҷоти асосӣ, 30% барои хоҳишҳо, 20% барои пасандоз.\n2. **Фонди Захиравӣ**: Захираеро барои 3-6 моҳи хароҷот эҷод кунед.\n3. **Аввал ба худ пардохт кунед**: ДАР рӯзи гирифтани даромад 15-20%-ро ба пасандоз гузоред!`
+    };
+    return tipResp[lang] || tipResp['kk'];
+  }
+
+  // 6. Forecast query
+  if (text.includes('prognoz') || text.includes('болжам') || text.includes('прогноз') || text.includes('forecast') || text.includes('tahmin') || text.includes('болжол') || text.includes('пешгӯӣ') || text.includes('oy oxiri') || text.includes('до конца месяца') || text.includes('end of month')) {
+    const forecastResp = {
+      uz: `🔮 **Oy Oxirigacha Chiqim Prognozi:**\n\n• **Oy tugashiga qoldi:** ${daysLeft} kun\n• **Hozirgi kunlik o'rtacha xarajat:** ${formatCurrency(Math.round(avgDailyExpense))}\n• **Kutilayotgan oylik jami chiqim:** ${formatCurrency(projectedMonthExpense)}\n\n💡 Hozirgi sur'atni saqlasangiz, oy oxirigacha taxminan ${formatCurrency(projectedMonthExpense)} sarflaysiz. Xarajatlarni tejash uchun kunlik limitni ${formatCurrency(Math.round(Math.max(0, balance) / daysLeft))} soatida ushlab turing!`,
+      kk: `🔮 **Ай Соңына Деиінгі Шығыс Болжамы:**\n\n• **Ай аяқталуына қалды:** ${daysLeft} күн\n• **Қазіргі күнделікті орташа шығыс:** ${formatCurrency(Math.round(avgDailyExpense))}\n• **Болжамды айлық жалпы шығыс:** ${formatCurrency(projectedMonthExpense)}\n\n💡 Осы қарқынмен жұмсасаңыз, ай соңына дейін шамамен ${formatCurrency(projectedMonthExpense)} жұмсайсыз. Үнемдеу үшін күнделікті лимит: ${formatCurrency(Math.round(Math.max(0, balance) / daysLeft))}!`,
+      ru: `🔮 **Прогноз Расходов до Конца Месяца:**\n\n• **Осталось дней до конца месяца:** ${daysLeft}\n• **Текущий среднедневной расход:** ${formatCurrency(Math.round(avgDailyExpense))}\n• **Прогнозируемый итог за месяц:** ${formatCurrency(projectedMonthExpense)}\n\n💡 При сохранении текущего темпа вы потратите около ${formatCurrency(projectedMonthExpense)}. Чтобы оставаться в плюсе, лимит на день: ${formatCurrency(Math.round(Math.max(0, balance) / daysLeft))}!`,
+      en: `🔮 **End of Month Expense Forecast:**\n\n• **Days remaining in month:** ${daysLeft}\n• **Current average daily spending:** ${formatCurrency(Math.round(avgDailyExpense))}\n• **Projected month-end total expense:** ${formatCurrency(projectedMonthExpense)}\n\n💡 At your current spending rate, your projected spending is ${formatCurrency(projectedMonthExpense)}. Recommended daily spending limit: ${formatCurrency(Math.round(Math.max(0, balance) / daysLeft))}!`,
+      tr: `🔮 **Ay Sonu Gider Tahmini:**\n\n• **Ay sonuna kalan gün:** ${daysLeft}\n• **Mevcut günlük ortalama harcama:** ${formatCurrency(Math.round(avgDailyExpense))}\n• **Tahmini aylık toplam gider:** ${formatCurrency(projectedMonthExpense)}\n\n💡 Mevcut harcama hızınızı korursanız ay sonuna kadar ${formatCurrency(projectedMonthExpense)} harcayacaksınız. Güvenli günlük harcama limiti: ${formatCurrency(Math.round(Math.max(0, balance) / daysLeft))}!`,
+      ky: `🔮 **Ай Аягына Чеинки Чыгаша Болжолу:**\n\n• **Ай аягына калды:** ${daysLeft} күн\n• **Күнүмдүк орточо чыгаша:** ${formatCurrency(Math.round(avgDailyExpense))}\n• **Болжолдуу айлык жалпы чыгаша:** ${formatCurrency(projectedMonthExpense)}\n\n💡 Ушул темпте уланта берсеңиз, ай аягында болжол менен ${formatCurrency(projectedMonthExpense)} сарптайсыз. Сунушталган күнүмдүк лимит: ${formatCurrency(Math.round(Math.max(0, balance) / daysLeft))}!`,
+      tg: `🔮 **Пешгӯии Хароҷот то Охири Моҳ:**\n\n• **Рӯзҳои боқимонда то охири моҳ:** ${daysLeft}\n• **Хароҷоти миёнаи рӯзона:** ${formatCurrency(Math.round(avgDailyExpense))}\n• **Хароҷоти пешгӯишавандаи моҳона:** ${formatCurrency(projectedMonthExpense)}\n\n💡 Бо суръати ҷорӣ шумо то охири моҳ тақрибан ${formatCurrency(projectedMonthExpense)} хароҷот мекунед. Лимити бехатари рӯзона: ${formatCurrency(Math.round(Math.max(0, balance) / daysLeft))}!`
+    };
+    return forecastResp[lang] || forecastResp['kk'];
+  }
+
+  // 7. Default smart general AI response
   const generalResp = {
-    kk: `💡 **FinFlow Қаржылық Ақылды Кеңесі:**\n\n1. **50/30/20 ережесін ұстаныңыз**: Кірістің 50% негізгі қажеттілікке, 30% қалауларға, 20% жинаққа бөліңіз.\n2. **Захира қорын жасаңыз**: Кем дегенде 3-6 айлық шығысты жабатын резерв жинаңыз.\n3. **Күнделікті есеп жүргізіңіз**: Жұмсалған әрбір теңгені FinFlow қосымшасына жазып отырыңыз!\n\nСұрағыңыз болса, мархабат, маған жазыңыз! 😊`,
     uz: `💡 **FinFlow Moliyaviy Aqlli Maslahati:**\n\n1. **50/30/20 qoidasiga amal qiling**: Daromadning 50% qismini asosiy ehtiyojlarga, 30% xohishlarga, 20% zaxiraga ajrating.\n2. **Zaxira fondini yarating**: Kamida 3-6 oylik xarajatlarni qoplaydigan zaxira yig'ing.\n3. **Kunlik hisob yuriting**: Har bir sarflangan summani FinFlow ilovasiga kiritib boring!\n\nSavolingiz bo'lsa, marhamat, menga yozing! 😊`,
-    ru: `💡 **Умный Финансовый Совет FinFlow:**\n\n1. **Правило 50/30/20**: 50% на основные нужды, 30% на желания, 20% в сбережения.\n2. **Создайте подушку безопасности**: Отложите сумму равную 3-6 месячным расходам.\n3. **Ведите ежедневный учет**: Записывайте каждые траты в приложение FinFlow!\n\nЗадавайте любые вопросы, я с радостью отвечу! 😊`
+    kk: `💡 **FinFlow Қаржылық Ақылды Кеңесі:**\n\n1. **50/30/20 ережесін ұстаныңыз**: Кірістің 50% негізгі қажеттілікке, 30% қалауларға, 20% жинаққа бөліңіз.\n2. **Захира қорын жасаңыз**: Кем дегенде 3-6 айлық шығысты жабатын резерв жинаңыз.\n3. **Күнделікті есеп жүргізіңіз**: Жұмсалған әрбір теңгені FinFlow қосымшасына жазып отырыңыз!\n\nСұрағыңыз болса, мархабат, маған жазыңыз! 😊`,
+    ru: `💡 **Умный Финансовый Совет FinFlow:**\n\n1. **Правило 50/30/20**: 50% на основные нужды, 30% на желания, 20% в сбережения.\n2. **Создайте подушку безопасности**: Отложите сумму равную 3-6 месячным расходам.\n3. **Ведите ежедневный учет**: Записывайте каждые траты в приложение FinFlow!\n\nЗадавайте любые вопросы, я с радостью отвечу! 😊`,
+    en: `💡 **Smart FinFlow Financial Advice:**\n\n1. **Follow 50/30/20 Rule**: 50% for necessities, 30% for wants, and 20% for emergency savings.\n2. **Build an Emergency Fund**: Keep 3 to 6 months worth of essential expenses saved.\n3. **Track Daily Spending**: Log every single transaction right inside FinFlow!\n\nFeel free to ask any financial question! 😊`,
+    tr: `💡 **Akıllı FinFlow Finansal Tavsiyesi:**\n\n1. **50/30/20 Kuralını Uygulayın**: Gelirin %50'si zorunlu giderlere, %30'u isteklere, %20'si birikime.\n2. **Yedek Akçe Oluşturun**: En az 3-6 aylık giderinizi karşılayacak acil durum fonu kurun.\n3. **Günlük Harcamayı İzleyin**: Yapılan her harcamayı FinFlow uygulamasına kaydedin!\n\nBana istediğiniz finansal soruyu sorabilirsiniz! 😊`,
+    ky: `💡 **FinFlow Каржылык Акылдуу Кеңеши:**\n\n1. **50/30/20 эрежесин карманыңыз**: Кирешенин 50% зарыл муктаждыктарга, 30% каалоолорго, 20% топтомго бөлүңүз.\n2. **Резервдик фонд түзүңүз**: Кем дегенде 3-6 айлык чыгашаны жаба турган топтом чогултуңуз.\n3. **Күнүмдүк эсеп жүргүзүңүз**: Ар бир сарпталган акчаны FinFlow тиркемесине киргизип туруңуз!\n\nСурооңуз болсо, мага жазыңыз! 😊`,
+    tg: `💡 **Маслиҳати Оқилонаи Молиявии FinFlow:**\n\n1. **Қоидаи 50/30/20-ро риоя кунед**: 50%-и даромад барои эҳтиёҷоти асосӣ, 30% барои хоҳишҳо, 20% барои пасандоз.\n2. **Фонди захиравӣ созед**: Захираеро барои 3-6 моҳи хароҷот ҷамъ кунед.\n3. **Ҳисоботи рӯзона баред**: Ҳар як хароҷотро ба барномаи FinFlow дохил кунед!\n\nАгар саволе дошта бошед, марҳамат ба ман нависед! 😊`
   };
 
   return generalResp[lang] || generalResp['kk'];
